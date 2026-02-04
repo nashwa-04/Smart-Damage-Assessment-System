@@ -16,7 +16,7 @@ class AnalyzeDamageJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected int $reportId;
-    protected string $tries = 3;
+    protected int $tries = 3;
     protected int $timeout = 60;
 
     public function __construct(int $reportId)

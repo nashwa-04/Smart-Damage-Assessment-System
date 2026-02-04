@@ -23,7 +23,7 @@
                             Register
                         </a>
                     <?php else: ?>
-                        <a href="<?php echo e(route('dashboard')); ?>" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+                        <a href="<?php echo e(route('admin.dashboard')); ?>" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
                             Dashboard
                         </a>
                     <?php endif; ?>

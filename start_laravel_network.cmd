@@ -5,3 +5,4 @@ echo Other devices on the local network can access this server
 echo.
 cd backend
 php artisan serve --host=10.28.57.151 --port=8000
+pause

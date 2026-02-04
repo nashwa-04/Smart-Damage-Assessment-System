@@ -28,7 +28,22 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+        
+        // Check if there's an intended URL (user was trying to access a protected page)
+        $intendedUrl = $request->session()->get('url.intended');
+        
+        // If there's an intended URL, redirect to it
+        if ($intendedUrl) {
+            return redirect($intendedUrl);
+        }
+        
+        // No intended URL, redirect based on user role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**

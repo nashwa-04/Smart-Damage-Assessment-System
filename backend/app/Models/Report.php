@@ -21,6 +21,9 @@ class Report extends Model
         'ai_damage_level',
         'ai_analysis',
         'status',
+        'images',
+        'pdf_file',
+        'video_links',
     ];
 
     protected $casts = [
@@ -28,6 +31,8 @@ class Report extends Model
         'longitude' => 'decimal:8',
         'ai_damage_level' => 'string',
         'status' => 'string',
+        'images' => 'array',
+        'video_links' => 'array',
     ];
 
     public function user(): BelongsTo

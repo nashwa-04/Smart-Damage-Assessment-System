@@ -63,11 +63,38 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request): \Illuminate\Http\JsonResponse
     {
-        $imagePath = $request->file('image')->store('reports', 'public');
+        // 1. معالجة الصور المتعددة
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('reports/images', 'public');
+                $imagePaths[] = $path;
+            }
+        }
+        // دعم الصورة الواحدة القديمة للحفاظ على التوافق
+        elseif ($request->hasFile('image')) {
+            $path = $request->file('image')->store('reports', 'public');
+            $imagePaths = [$path];
+        }
 
+        // 2. معالجة ملف PDF
+        $pdfPath = null;
+        if ($request->hasFile('pdf_file')) {
+            $pdfPath = $request->file('pdf_file')->store('reports/docs', 'public');
+        }
+
+        // 3. معالجة الروابط (تأكد أنها مصفوفة)
+        $links = $request->input('video_links', []);
+        // تصفية الروابط الفارغة
+        $links = array_filter($links);
+
+        // 4. الحفظ في قاعدة البيانات
         $report = Report::create([
             'user_id' => auth()->id(),
-            'image_path' => $imagePath,
+            'image_path' => !empty($imagePaths) ? $imagePaths[0] : null, // الحفاظ على التوافق
+            'images' => !empty($imagePaths) ? $imagePaths : null,
+            'pdf_file' => $pdfPath,
+            'video_links' => !empty($links) ? $links : null,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'raw_location' => $request->raw_location,

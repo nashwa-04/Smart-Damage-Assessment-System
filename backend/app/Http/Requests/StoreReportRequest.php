@@ -24,7 +24,12 @@ class StoreReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|max:10240',
+            'image' => 'nullable|image|max:10240',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+            'pdf_file' => 'nullable|mimes:pdf|max:20480',
+            'video_links' => 'nullable|array',
+            'video_links.*' => 'nullable|url',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'raw_location' => 'required|string|max:255',
