@@ -16,13 +16,26 @@ Route::get('/', function () {
     ]);
 });
 
+// Auth routes
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [App\Http\Controllers\Api\AuthController::class, 'me'])->middleware('auth:sanctum');
 
+// User routes (for field users)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports', [App\Http\Controllers\Api\ReportController::class, 'index']);
     Route::post('/reports', [App\Http\Controllers\Api\ReportController::class, 'store']);
     Route::get('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'show']);
     Route::delete('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'destroy']);
+});
+
+// Admin routes (admin role required)
+Route::middleware(['auth:sanctum', 'admin.api'])->prefix('admin')->group(function () {
+    // User management
+    Route::get('/users', [App\Http\Controllers\Api\Admin\UserController::class, 'index']);
+    Route::post('/users', [App\Http\Controllers\Api\Admin\UserController::class, 'store']);
+    Route::get('/users/statistics', [App\Http\Controllers\Api\Admin\UserController::class, 'statistics']);
+    Route::get('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'show']);
+    Route::put('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'update']);
+    Route::delete('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'destroy']);
 });

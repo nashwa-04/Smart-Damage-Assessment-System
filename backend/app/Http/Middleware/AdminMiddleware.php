@@ -15,13 +15,11 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
-        // Check if user is authenticated and is an admin
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            // If not admin, redirect to regular dashboard
-            return redirect()->route('dashboard');
-        }
-
-        return $next($request);
+{
+    if (!Auth::check() || Auth::user()->role !== 'admin') {
+        return redirect()->route('home');
     }
+
+    return $next($request);
+}
 }

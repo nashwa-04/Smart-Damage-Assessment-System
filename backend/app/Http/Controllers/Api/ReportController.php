@@ -146,9 +146,23 @@ class ReportController extends Controller
     {
         $report = auth()->user()->reports()->findOrFail($id);
         
-        // Delete the image file if it exists
+        // حذف الصور المتعددة
+        if (!empty($report->images) && is_array($report->images)) {
+            foreach ($report->images as $imagePath) {
+                if (\Storage::disk('public')->exists($imagePath)) {
+                    \Storage::disk('public')->delete($imagePath);
+                }
+            }
+        }
+        
+        // حذف الصورة القديمة (للتوافق)
         if ($report->image_path && \Storage::disk('public')->exists($report->image_path)) {
             \Storage::disk('public')->delete($report->image_path);
+        }
+        
+        // حذف ملف PDF
+        if ($report->pdf_file && \Storage::disk('public')->exists($report->pdf_file)) {
+            \Storage::disk('public')->delete($report->pdf_file);
         }
         
         $report->delete();

@@ -20,10 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/*',
         ]);
         
-        // Register admin middleware
-        $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        ]);
+// Register admin middleware
+$middleware->alias([
+    'admin' => \App\Http\Middleware\AdminMiddleware::class,
+    'admin.api' => \App\Http\Middleware\AdminApiMiddleware::class,
+]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

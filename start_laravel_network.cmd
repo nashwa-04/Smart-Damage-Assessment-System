@@ -4,5 +4,6 @@ echo Starting Laravel server on network IP: 10.28.57.151:8000
 echo Other devices on the local network can access this server
 echo.
 cd backend
-php artisan serve --host=10.28.57.151 --port=8000
+php artisan serve --host=192.168.43.19 --port=8000
 pause
+

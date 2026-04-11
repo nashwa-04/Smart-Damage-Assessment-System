@@ -1,159 +1,260 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إضافة تقرير جديد - نظام تقييم الأضرار الذكي</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
-    <div class="flex">
-        <aside class="w-64 bg-gray-800 min-h-screen">
-            <div class="p-4">
-                <h1 class="text-white text-xl font-bold">لوحة التحكم</h1>
+@extends('admin.layouts.app')
+
+@section('title', 'إضافة تقرير جديد - نظام تقييم الأضرار الذكي')
+
+@section('content')
+<!-- Header -->
+<div class="mb-8 fade-in">
+    <div class="glass-card rounded-3xl p-8 shadow-xl">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
             </div>
-            <nav>
-                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-white hover:bg-gray-700">لوحة القيادة</a>
-                <a href="{{ route('admin.map') }}" class="block px-4 py-2 text-white hover:bg-gray-700">عرض الخريطة</a>
-                <a href="{{ route('admin.reports') }}" class="block px-4 py-2 text-white hover:bg-gray-700">التقارير</a>
-            </nav>
-        </aside>
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800">إضافة تقرير جديد</h2>
+                <p class="text-slate-500 mt-1">قم بإنشاء تقرير جديد مع جميع التفاصيل</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <main class="flex-1 p-8">
-            <h2 class="text-2xl font-bold mb-6">إضافة تقرير جديد</h2>
+@if ($errors->any())
+<div class="mb-6 fade-in">
+    <div class="bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-200 rounded-2xl p-5 shadow-lg">
+        <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-red-500 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-red-800 text-lg mb-2">يرجى تصحيح الأخطاء التالية:</h3>
+                <ul class="text-red-700 space-y-1">
+                    @foreach ($errors->all() as $error)
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        {{ $error }}
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
-            @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+<form action="{{ route('admin.reports.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    @csrf
+
+    <!-- Basic Info Card -->
+    <div class="glass-card rounded-3xl shadow-xl overflow-hidden fade-in">
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-5">
+            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                المعلومات الأساسية
+            </h3>
+        </div>
+        
+        <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- User -->
+                <div>
+                    <label for="user_id" class="block text-sm font-bold text-slate-700 mb-2">المستخدم</label>
+                    <select name="user_id" id="user_id" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all" required>
+                        <option value="">اختر مستخدم</option>
+                        @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                         @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{ route('admin.reports.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow p-6">
-                @csrf
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- User Selection -->
-                    <div>
-                        <label for="user_id" class="block text-sm font-medium text-gray-700">المستخدم</label>
-                        <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                            <option value="">اختر مستخدم</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Location -->
-                    <div>
-                        <label for="raw_location" class="block text-sm font-medium text-gray-700">الموقع</label>
-                        <input type="text" name="raw_location" id="raw_location" value="{{ old('raw_location') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                    </div>
-
-                    <!-- Latitude -->
-                    <div>
-                        <label for="latitude" class="block text-sm font-medium text-gray-700">خط العرض</label>
-                        <input type="number" step="any" name="latitude" id="latitude" value="{{ old('latitude') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                    </div>
-
-                    <!-- Longitude -->
-                    <div>
-                        <label for="longitude" class="block text-sm font-medium text-gray-700">خط الطول</label>
-                        <input type="number" step="any" name="longitude" id="longitude" value="{{ old('longitude') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                    </div>
-
-                    <!-- Damage Level -->
-                    <div>
-                        <label for="ai_damage_level" class="block text-sm font-medium text-gray-700">مستوى الضرر (AI)</label>
-                        <select name="ai_damage_level" id="ai_damage_level" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="">غير محدد</option>
-                            <option value="low" {{ old('ai_damage_level') == 'low' ? 'selected' : '' }}>منخفض</option>
-                            <option value="medium" {{ old('ai_damage_level') == 'medium' ? 'selected' : '' }}>متوسط</option>
-                            <option value="high" {{ old('ai_damage_level') == 'high' ? 'selected' : '' }}>عالي</option>
-                            <option value="critical" {{ old('ai_damage_level') == 'critical' ? 'selected' : '' }}>حرج</option>
-                        </select>
-                    </div>
-
-                    <!-- Status -->
-                    <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700">الحالة</label>
-                        <select name="status" id="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
-                            <option value="processing" {{ old('status') == 'processing' ? 'selected' : '' }}>قيد المعالجة</option>
-                            <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>مكتمل</option>
-                            <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>مرفوض</option>
-                        </select>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="md:col-span-2">
-                        <label for="raw_description" class="block text-sm font-medium text-gray-700">الوصف</label>
-                        <textarea name="raw_description" id="raw_description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('raw_description') }}</textarea>
-                    </div>
+                    </select>
                 </div>
 
-                <!-- Multimedia Section -->
-                <div class="mt-8 border-t pt-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">الملفات والوسائط المتعددة</h3>
-                    
-                    <!-- Images Section -->
-                    <div class="mb-6">
-                        <label for="images" class="block text-sm font-medium text-gray-700 mb-2">الصور</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                            <label for="images" class="block text-sm text-gray-600 mb-2">رفع صور:</label>
-                            <input type="file" name="images[]" id="images" multiple accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            <p class="text-xs text-gray-500 mt-1">يمكنك اختيار عدة صور في نفس الوقت (حد أقصى 10 ميجابايت لكل صورة)</p>
-                        </div>
-                    </div>
-
-                    <!-- PDF Section -->
-                    <div class="mb-6">
-                        <label for="pdf_file" class="block text-sm font-medium text-gray-700 mb-2">ملف PDF (اختياري)</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                            <label for="pdf_file" class="block text-sm text-gray-600 mb-2">رفع ملف PDF:</label>
-                            <input type="file" name="pdf_file" id="pdf_file" accept=".pdf,application/pdf" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
-                            <p class="text-xs text-gray-500 mt-1">حد أقصى 20 ميجابايت</p>
-                        </div>
-                    </div>
-
-                    <!-- Video Links Section -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">روابط الفيديو (اختياري)</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                            <label class="block text-sm text-gray-600 mb-2">إضافة روابط فيديو:</label>
-                            <div id="video-links-container" class="space-y-2">
-                                <div class="flex gap-2">
-                                    <input type="url" name="video_links[]" placeholder="https://youtube.com/watch?v=..." class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                    <button type="button" onclick="addVideoLink()" class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">+ إضافة</button>
-                                </div>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-2">أمثلة: YouTube, Vimeo, أو أي رابط فيديو آخر</p>
-                        </div>
-                    </div>
+                <!-- Location -->
+                <div>
+                    <label for="raw_location" class="block text-sm font-bold text-slate-700 mb-2">الموقع</label>
+                    <input type="text" name="raw_location" id="raw_location" value="{{ old('raw_location') }}" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all" placeholder="مثال: دمشق، حي الميدان" required>
                 </div>
 
-                <div class="mt-6 flex justify-end space-x-4">
-                    <a href="{{ route('admin.reports') }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">إلغاء</a>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">حفظ التقرير</button>
+                <!-- Latitude -->
+                <div>
+                    <label for="latitude" class="block text-sm font-bold text-slate-700 mb-2">خط العرض</label>
+                    <input type="number" step="any" name="latitude" id="latitude" value="{{ old('latitude') }}" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all" placeholder="33.5138" required>
                 </div>
-            </form>
-        </main>
+
+                <!-- Longitude -->
+                <div>
+                    <label for="longitude" class="block text-sm font-bold text-slate-700 mb-2">خط الطول</label>
+                    <input type="number" step="any" name="longitude" id="longitude" value="{{ old('longitude') }}" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all" placeholder="36.2765" required>
+                </div>
+
+                <!-- Damage Level -->
+                <div>
+                    <label for="ai_damage_level" class="block text-sm font-bold text-slate-700 mb-2">مستوى الضرر (AI)</label>
+                    <select name="ai_damage_level" id="ai_damage_level" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all">
+                        <option value="">غير محدد</option>
+                        <option value="low" {{ old('ai_damage_level') == 'low' ? 'selected' : '' }}>منخفض</option>
+                        <option value="medium" {{ old('ai_damage_level') == 'medium' ? 'selected' : '' }}>متوسط</option>
+                        <option value="high" {{ old('ai_damage_level') == 'high' ? 'selected' : '' }}>عالي</option>
+                        <option value="critical" {{ old('ai_damage_level') == 'critical' ? 'selected' : '' }}>حرج</option>
+                    </select>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label for="status" class="block text-sm font-bold text-slate-700 mb-2">الحالة</label>
+                    <select name="status" id="status" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all">
+                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
+                        <option value="processing" {{ old('status') == 'processing' ? 'selected' : '' }}>قيد المعالجة</option>
+                        <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>مكتمل</option>
+                        <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>مرفوض</option>
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="md:col-span-2">
+                    <label for="raw_description" class="block text-sm font-bold text-slate-700 mb-2">الوصف</label>
+                    <textarea name="raw_description" id="raw_description" rows="4" class="w-full px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all resize-none" placeholder="اكتب وصفاً تفصيلياً للضرر...">{{ old('raw_description') }}</textarea>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        function addVideoLink() {
-            const container = document.getElementById('video-links-container');
-            const newDiv = document.createElement('div');
-            newDiv.className = 'flex gap-2';
-            newDiv.innerHTML = `
-                <input type="url" name="video_links[]" placeholder="https://youtube.com/watch?v=..." class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                <button type="button" onclick="this.parentElement.remove()" class="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm">حذف</button>
-            `;
-            container.appendChild(newDiv);
-        }
-    </script>
-</body>
-</html>
+    <!-- Images Card -->
+    <div class="glass-card rounded-3xl shadow-xl overflow-hidden fade-in">
+        <div class="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-5">
+            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                الصور
+            </h3>
+        </div>
+        
+        <div class="p-8">
+            <div class="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:border-indigo-500 hover:bg-indigo-50/50 transition-all">
+                <div class="w-20 h-20 mx-auto rounded-2xl bg-green-100 flex items-center justify-center mb-4">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                </div>
+                <p class="text-slate-700 font-bold mb-2">اسحب الصور هنا أو انقر للاختيار</p>
+                <p class="text-slate-400 text-sm mb-4">JPG, PNG, GIF - حتى 10 صور</p>
+                <input type="file" name="images[]" id="images" multiple accept="image/*" class="hidden">
+                <label for="images" class="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    اختيار صور
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Card -->
+    <div class="glass-card rounded-3xl shadow-xl overflow-hidden fade-in">
+        <div class="bg-gradient-to-r from-red-500 to-rose-600 px-8 py-5">
+            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                ملف PDF
+            </h3>
+        </div>
+        
+        <div class="p-8">
+            <div class="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:border-red-500 hover:bg-red-50/50 transition-all">
+                <div class="w-20 h-20 mx-auto rounded-2xl bg-red-100 flex items-center justify-center mb-4">
+                    <svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <p class="text-slate-700 font-bold mb-2">رفع ملف PDF جديد</p>
+                <p class="text-slate-400 text-sm mb-4">الحد الأقصى: 20 ميجابايت</p>
+                <input type="file" name="pdf_file" id="pdf_file" accept=".pdf,application/pdf" class="hidden">
+                <label for="pdf_file" class="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                    </svg>
+                    اختيار ملف
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Links Card -->
+    <div class="glass-card rounded-3xl shadow-xl overflow-hidden fade-in">
+        <div class="bg-gradient-to-r from-purple-500 to-violet-600 px-8 py-5">
+            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                روابط الفيديو
+            </h3>
+        </div>
+        
+        <div class="p-8">
+            <div id="video-links-container" class="space-y-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <input type="url" name="video_links[]" placeholder="https://youtube.com/watch?v=..." class="flex-1 px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none transition-all">
+                    <button type="button" onclick="addVideoLink()" class="w-10 h-10 rounded-lg bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <p class="text-slate-400 text-sm mt-4 text-center">YouTube, Vimeo, أو أي رابط فيديو آخر</p>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center justify-end gap-4 pt-4 fade-in">
+        <a href="{{ route('admin.reports') }}" class="px-8 py-4 bg-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-300 transition-colors flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            إلغاء
+        </a>
+        <button type="submit" class="btn-gradient px-8 py-4 text-white rounded-xl font-bold flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            حفظ التقرير
+        </button>
+    </div>
+</form>
+@endsection
+
+@push('scripts')
+<script>
+    function addVideoLink() {
+        const container = document.getElementById('video-links-container');
+        const newDiv = document.createElement('div');
+        newDiv.className = 'flex items-center gap-3 fade-in';
+        newDiv.innerHTML = `
+            <div class="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+            </div>
+            <input type="url" name="video_links[]" placeholder="https://youtube.com/watch?v=..." class="flex-1 px-5 py-4 border-2 border-slate-200 rounded-xl bg-white focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none transition-all">
+            <button type="button" onclick="this.parentElement.remove()" class="w-10 h-10 rounded-lg bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        `;
+        container.appendChild(newDiv);
+    }
+</script>
+@endpush

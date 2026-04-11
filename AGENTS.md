@@ -1,4 +1,16 @@
-# AGENTS.md - Developer Guidelines for Smart Damage Assessment System
+# Developer Guidelines for Smart Damage Assessment System
+
+## Response Protocol - بروتوكول الرد الصارم
+
+### قاعدة الكتابة في ملف message.md
+- **القاعدة الصارمة**: يجب على المساعد الرد على جميع الرسائل والاستفسارات عن طريق كتابة ملف `message.md` في المجلد الجذري للمشروع
+- المسار: `D:\Smart Damage Assessment System\message.md`
+- يجب إعادة كتابة الملف بالكامل عند كل رد جديد
+- صيغة الملف: Markdown
+- **ممنوع**: الرد المباشر في المحادثة - كل الردود يجب أن تكون في الملف حصراً
+- هذه القاعدة صارمة ولا توجد استثناءات
+
+---
 
 ## Build/Lint/Test Commands
 
