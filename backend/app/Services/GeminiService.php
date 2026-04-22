@@ -11,7 +11,7 @@ class GeminiService
 
     public function __construct()
     {
-        $this->apiKey = env('GEMINI_API_KEY');
+        $this->apiKey = config('services.gemini.api_key');
     }
 
     public function analyzeDamage(string $imagePath, string $rawLocation, string $rawDescription): array
@@ -22,7 +22,7 @@ class GeminiService
             $prompt = "Analyze the image and text. 1. Normalize location in Syria. 2. Assess damage level 1-10. 3. Extract description. Return JSON with: normalized_location, damage_level (low/medium/high/critical), analysis_text.";
 
             $response = Http::timeout(30)->post(
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key={$this->apiKey}",
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$this->apiKey}",
                 [
                     'contents' => [
                         [
@@ -32,7 +32,7 @@ class GeminiService
                                 [
                                     'inline_data' => [
                                         'mime_type' => 'image/jpeg',
-                                        'data' => base64_encode(file_get_contents($imagePath))
+                                        'data' => base64_encode(file_get_contents(storage_path('app/public/' . $imagePath)))
                                     ]
                                 ]
                             ]

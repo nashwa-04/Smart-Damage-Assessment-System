@@ -1,9 +1,9 @@
 @echo off
-REM Start Laravel server on network IP
-echo Starting Laravel server on network IP: 10.28.57.151:8000
+REM Start Laravel server on all network interfaces
+echo Starting Laravel server on 0.0.0.0:8000 (all interfaces)
 echo Other devices on the local network can access this server
 echo.
 cd backend
-php artisan serve --host=192.168.43.19 --port=8000
+php artisan serve --host=0.0.0.0 --port=8000
 pause
 

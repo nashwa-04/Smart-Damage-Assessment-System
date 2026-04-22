@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Laravel
+.env
+.env.backup
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+*.log
+
+# Build files
+public/build/
+public/hot
+public/storage
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+
+# Temporary files
+*.tmp
+*.temp
