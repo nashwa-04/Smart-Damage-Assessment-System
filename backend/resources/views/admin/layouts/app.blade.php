@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -31,8 +31,9 @@
         }
 
         .sidebar-item.active {
-            background: linear-gradient(135deg, #C9A97C 0%, #78A9C1 100%);
-            color: white;
+            background: rgba(201, 169, 124, 0.12);
+            border-right: 3px solid #C9A97C;
+            color: #FAFAFA;
         }
 
         .fade-in {
@@ -69,18 +70,90 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #78A9C1;
         }
+
+        @media (min-width: 1024px) {
+            .admin-sidebar {
+                display: block !important;
+            }
+        }
     </style>
     @stack('styles')
 </head>
 <body class="bg-beige min-h-screen">
-    <div class="flex min-h-screen">
-        @include('admin.partials.sidebar')
+<div x-data="{ sidebarOpen: false }" class="min-h-screen">
 
-        <main class="flex-1 mr-72 p-8">
-            @yield('content')
-        </main>
+@include('admin.partials.sidebar')
+
+<div class="lg:mr-72 min-h-screen transition-all duration-300">
+            <header class="sticky top-0 z-20 lg:hidden" style="background: #0B0B45; color: #FAFAFA;">
+                <div class="flex items-center justify-between px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg transition-colors" style="color: rgba(250,250,250,0.7);" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                        <h1 class="text-sm font-bold" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment">نظام تقييم الأضرار</h1>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs" style="color: rgba(250,250,250,0.5);">{{ auth()->user()->name }}</span>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-sand to-sage flex items-center justify-center text-white font-bold text-sm">
+                            {{ auth()->user()->name[0] ?? 'م' }}
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-3 lg:p-4">
+                @yield('content')
+            </main>
+        </div>
     </div>
 
     @stack('scripts')
+    <script>
+        let currentLang = localStorage.getItem('lang') || 'ar';
+
+        function confirmMessage(arMsg, enMsg) {
+            const lang = localStorage.getItem('lang') || 'ar';
+            return confirm(lang === 'ar' ? arMsg : enMsg);
+        }
+        function applyLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            const langBtn = document.getElementById('langText');
+            if (langBtn) langBtn.textContent = lang === 'ar' ? 'English' : 'العربية';
+            document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+                if (el.tagName === 'OPTION') return;
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+            document.querySelectorAll('select').forEach(select => {
+                let hasI18nOptions = false;
+                select.querySelectorAll('option[data-' + lang + ']').forEach(option => {
+                    option.textContent = option.getAttribute('data-' + lang);
+                    hasI18nOptions = true;
+                });
+                if (hasI18nOptions) {
+                    const currentVal = select.value;
+                    select.value = '';
+                    select.value = currentVal;
+                }
+            });
+            document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(el => {
+                el.setAttribute('placeholder', el.getAttribute('data-' + lang + '-placeholder'));
+            });
+            if (typeof window.rebuildMapPopups === 'function') {
+                window.rebuildMapPopups(lang);
+            }
+        }
+        applyLanguage(currentLang);
+        document.querySelectorAll('#langToggle').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentLang = currentLang === 'ar' ? 'en' : 'ar';
+                localStorage.setItem('lang', currentLang);
+                applyLanguage(currentLang);
+            });
+        });
+    </script>
 </body>
 </html>

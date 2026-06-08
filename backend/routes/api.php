@@ -38,4 +38,9 @@ Route::middleware(['auth:sanctum', 'admin.api'])->prefix('admin')->group(functio
     Route::get('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'show']);
     Route::put('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'update']);
     Route::delete('/users/{user}', [App\Http\Controllers\Api\Admin\UserController::class, 'destroy']);
+
+    // Reports management
+    Route::get('/reports', [App\Http\Controllers\Api\ReportController::class, 'index']);
+    Route::get('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'show']);
+    Route::delete('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'destroy']);
 });

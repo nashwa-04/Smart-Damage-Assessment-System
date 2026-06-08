@@ -1,76 +1,26 @@
-# ✅ تم إنجاز التدقيق الشامل وخطة الإصلاح
+# إصلاح مشكلة الفلترة - حقول عربية عند اللغة الإنجليزية
 
-## ما تم إنجازه
+## المشكلة
+عند تبديل اللغة إلى الإنجليزية في صفحة `/admin/reports`، كانت عناصر `<select>` (القوائم المنسدلة) في قسم الفلترة تبقى بالنص العربي.
 
-قمت بتدقيق شامل لكل ملفات الباك إند (Laravel) بما يشمل:
-- **Controllers** (7 ملفات): Api, Admin, Auth, User
-- **Models** (2 ملف): User, Report
-- **Services** (1 ملف): GeminiService
-- **Jobs** (1 ملف): AnalyzeDamageJob
-- **Middleware** (2 ملف): AdminMiddleware, AdminApiMiddleware
-- **Requests** (3 ملفات): StoreReportRequest, UserRequest, ProfileUpdateRequest
-- **Resources** (2 ملف): ReportResource, UserResource
-- **Migrations** (6 ملفات)
-- **Seeders** (3 ملفات)
-- **Routes** (4 ملفات): api.php, web.php, auth.php, console.php
-- **Config** (2 ملف): scribe.php, bootstrap/app.php
-- **Tests** (7 ملفات)
-- **Views** (16+ ملف)
+## السبب
+دالة `applyLanguage` في `admin/layouts/app.blade.php:121` كانت تستخدم `el.textContent` لتحديث جميع العناصر بما فيها `<option>`، لكن المتصفحات لا تعيد رسم النص المعروض في زر الـ `<select>` (العنصر المحدد) بعد تحديث `textContent` للـ `<option>` مباشرة.
 
-## النتائج
+## الحل المطبّق
+تم تعديل دالة `applyLanguage` في الملف `backend/resources/views/admin/layouts/app.blade.php`:
 
-| الخطورة | العدد |
-|---------|-------|
-| 🔴 P0 - حرج (يمنع التشغيل) | 7 |
-| 🟠 P1 - عالي | 6 |
-| 🟡 P2 - متوسط | 5 |
-| 🔵 P3 - منخفض | 4 |
-| **المجموع** | **22 مشكلة** |
+1. **استبعاد `<option>` من التحديث العام** - لتجنب التحديث المزدوج
+2. **معالجة `<select>` بشكل منفصل** - تحديث نصوص جميع `<option>` داخل كل `<select>` ثم إعادة تعيين القيمة المحددة لإجبار المتصفح على إعادة الرسم:
+   ```javascript
+   document.querySelectorAll('select').forEach(select => {
+       select.querySelectorAll('option[data-' + lang + ']').forEach(option => {
+           option.textContent = option.getAttribute('data-' + lang);
+       });
+       const currentVal = select.value;
+       select.value = '';
+       select.value = currentVal; // إجبار إعادة الرسم
+   });
+   ```
 
-## الملفات المُنشأة في `توثيق/`
-
-1. **`01-BACKEND-BUGS-REPORT.md`** - تقرير مفصل لكل bug مع الكود المصحح
-2. **`02-FRONTEND-API-CONTRACT.md`** - عقد API كامل لمطور Flutter
-3. **`02-FRONTEND-API-GUIDE.md`** - دليل كامل لمطور Flutter مع أمثلة كود
-4. **`03-FRONTEND-FIXES-REQUIRED.md`** - قائمة الإصلاحات المطلوبة في Flutter
-5. **`04-BACKEND-FIXES-PLAN.md`** - خطة إصلاح شاملة للباك إند
-
-## أخطر 3 مشاكل يجب إصلاحها فوراً
-
-1. ⛔ **`bootstrap/app.php`** - `Route` facade غير مستورد → مسارات auth لا تعمل
-2. ⛔ **`GeminiService.php`** - نموذج AI متوقف + مسار ملف خاطئ → تحليل AI مستحيل
-3. ⛔ **`UserFactory` مفقودة** → كل الاختبارات تفشل
-
-> 📂 افتح مجلد `توثيق` لقراءة التفاصيل الكاملة
-
----
-
-# تعديل ألوان صفحة بلاغات المستخدم (user/reports/index.blade.php)
-
-## ما تم تنفيذه
-
-تم تعديل ألوان جميع عناصر صفحة `user/reports` لإجرائها بناءً على لون **النافبار الكحلي الجديد (#0f172a)** بدلاً من اللون الرمادي القديم (#2D3A50).
-
-### الألوان الجديدة
-
-| العنصر | اللون الجديد | الملاحظة |
-|--------|-------------|---------|
-| خلفية النافبار | `#0f172a` | لون كحلي غامق (slate-900) |
-| خلفية الصفحة | `#F3F2EF` | لون رمادي فاتح محايد |
-| لون النص الرئيسي | `#0f172a` | متناسق مع النافبار |
-| لون العناوين | `#0f172a` | قاتم وبارز |
-| التدرجات | من `#0f172a` إلى `#1e293b` | تدرج كحلي أنيق |
-
-### العناصر المعدلة
-1. **النافبار**: تغيير الخلفية من `#2D3A50` إلى `#0f172a`
-2. **خلفية الصفحة**: تغيير من `#E8E6E1` إلى `#F3F2EF`
-3. **لون النص**: تغيير جميع الألوان القاتمة من `#2D3A50` إلى `#0f172a`
-4. **التدرجات**: تغيير التدرجات لتكون من `#0f172a` إلى `#1e293b`
-5. **الأيقونات والحواف**: تحديث الألوان لتكون متناسقة مع الثيم الجديد
-
-### الملف المعدّل
-- `backend/resources/views/user/reports/index.blade.php`
-
----
-**التاريخ:** 2026-04-22
-**الحالة:** مكتمل
+## الملف المعدّل
+- `backend/resources/views/admin/layouts/app.blade.php` - السطر 121-145

@@ -33,4 +33,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+
+    public function customNotifications()
+    {
+        return $this->hasMany(NotificationModel::class);
+    }
+
+    public function unreadNotificationsCount()
+    {
+        return $this->customNotifications()->where('is_read', false)->count();
+    }
 }

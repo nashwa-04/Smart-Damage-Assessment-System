@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Services\GeminiService;
 use App\Http\Controllers\Controller;
+use App\Models\NotificationModel;
 use App\Models\Report;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -82,18 +85,67 @@ class DashboardController extends Controller
             return !empty($link) && filter_var($link, FILTER_VALIDATE_URL);
         });
 
-        Report::create([
+        $report = Report::create([
             'user_id' => auth()->id(),
             'raw_location' => $validated['raw_location'],
             'raw_description' => $validated['raw_description'] ?? '',
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
-            'status' => 'pending',
-            'image_path' => '',
-            'images' => $images,
+            'status' => 'processing',
+            'image_path' => !empty($images) ? $images[0] : null,
+            'images' => !empty($images) ? $images : null,
             'pdf_file' => $pdfPath,
             'video_links' => array_values($videoLinks),
         ]);
+
+        try {
+            $geminiService = app(GeminiService::class);
+            $result = $geminiService->analyzeDamage([
+                'image_path' => $report->image_path,
+                'raw_location' => $report->raw_location,
+                'raw_description' => $report->raw_description,
+                'latitude' => $report->latitude,
+                'longitude' => $report->longitude,
+            ]);
+            $report->update([
+                'ai_location' => $result['normalized_location'],
+                'ai_damage_score' => $result['damage_score'],
+                'ai_damage_level' => $result['damage_category'],
+                'ai_analysis' => $result['analysis_text'],
+                'status' => 'pending_approval',
+            ]);
+        } catch (\Exception $e) {
+            $report->update([
+                'status' => 'pending_approval',
+                'ai_damage_score' => 5,
+                'ai_damage_level' => 'moderate',
+                'ai_location' => $report->raw_location ?? 'غير محدد',
+                'ai_analysis' => 'فشل التحليل التلقائي: ' . $e->getMessage(),
+            ]);
+        }
+
+        NotificationModel::createForUser(
+            auth()->id(),
+            'status',
+            'تم إرسال البلاغ بنجاح',
+            'Report Submitted Successfully',
+            'تم إرسال البلاغ #' . $report->id . ' وهو قيد التحليل بالذكاء الاصطناعي',
+            'Report #' . $report->id . ' has been submitted and is being analyzed by AI',
+            $report->id
+        );
+
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            NotificationModel::createForUser(
+                $admin->id,
+                'new_report',
+                'بلاغ جديد',
+                'New Report',
+                'تم إرسال بلاغ جديد #' . $report->id . ' من ' . auth()->user()->name . ' - ' . $report->raw_location,
+                'New report #' . $report->id . ' submitted by ' . auth()->user()->name . ' - ' . $report->raw_location,
+                $report->id
+            );
+        }
 
         return redirect()->route('user.reports')->with('success', 'تم إرسال البلاغ بنجاح. سيتم تحليله بالذكاء الاصطناعي.');
     }

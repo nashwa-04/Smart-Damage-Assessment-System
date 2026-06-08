@@ -65,8 +65,15 @@ class ReportResource extends JsonResource
                 'ai_analysis' => $this->ai_analysis,
             ],
             'damage_assessment' => [
+                'score' => $this->ai_damage_score ?? 5,
                 'level' => $this->ai_damage_level,
-                'status' => $this->status,
+                'status' => in_array($this->status, ['approved', 'completed']) ? 'completed' : $this->status,
+                'admin_approval_status' => $this->admin_approval_status ?? 'pending',
+            ],
+            'admin' => [
+                'approval_status' => $this->admin_approval_status ?? 'pending',
+                'damage_score' => $this->admin_damage_score,
+                'notes' => $this->admin_notes,
             ],
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

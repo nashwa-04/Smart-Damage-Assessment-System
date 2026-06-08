@@ -19,8 +19,13 @@ class Report extends Model
         'raw_description',
         'ai_location',
         'ai_damage_level',
+        'ai_damage_score',
         'ai_analysis',
         'status',
+        'admin_approval_status',
+        'admin_damage_score',
+        'admin_notes',
+        'approved_by',
         'images',
         'pdf_file',
         'video_links',
@@ -30,7 +35,10 @@ class Report extends Model
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
         'ai_damage_level' => 'string',
+        'ai_damage_score' => 'integer',
         'status' => 'string',
+        'admin_approval_status' => 'string',
+        'admin_damage_score' => 'integer',
         'images' => 'array',
         'video_links' => 'array',
     ];
@@ -38,5 +46,10 @@ class Report extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }
