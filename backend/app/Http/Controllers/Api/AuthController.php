@@ -80,6 +80,30 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
+        if ($request->isMethod('post')) {
+            return $this->changePassword($request);
+        }
+
         return response()->json($request->user());
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['error' => 'Current password is incorrect'], 422);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json(['message' => 'Password changed successfully']);
     }
 }
