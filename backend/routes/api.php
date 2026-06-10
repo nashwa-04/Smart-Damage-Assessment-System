@@ -19,7 +19,7 @@ Route::get('/', function () {
 // Auth routes
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('/me', [App\Http\Controllers\Api\AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::match(['get', 'post'], '/me', [App\Http\Controllers\Api\AuthController::class, 'me'])->middleware('auth:sanctum');
 
 // User routes (for field users)
 Route::middleware('auth:sanctum')->group(function () {
