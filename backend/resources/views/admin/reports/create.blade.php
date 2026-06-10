@@ -309,21 +309,50 @@
     });
 
     function getMyLocation() {
+        var lang = localStorage.getItem('lang') || 'ar';
+        var latInput = document.getElementById('latitude');
+        var lngInput = document.getElementById('longitude');
+
+        function applyLocation(lat, lng, zoom, source) {
+            latInput.value = lat.toFixed(6);
+            lngInput.value = lng.toFixed(6);
+            locationMap.setView([lat, lng], zoom);
+            if (createMarker) locationMap.removeLayer(createMarker);
+            createMarker = L.marker([lat, lng]).addTo(locationMap);
+        }
+
         if (!navigator.geolocation) {
-            alert(localStorage.getItem('lang') === 'ar' ? 'متصفحك لا يدعم تحديد الموقع' : 'Your browser does not support geolocation');
+            fetchLocationByIPAdmin(applyLocation, lang);
             return;
         }
         navigator.geolocation.getCurrentPosition(function(pos) {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            document.getElementById('latitude').value = lat.toFixed(6);
-            document.getElementById('longitude').value = lng.toFixed(6);
-            locationMap.setView([lat, lng], 15);
-            if (createMarker) locationMap.removeLayer(createMarker);
-            createMarker = L.marker([lat, lng]).addTo(locationMap);
+            applyLocation(pos.coords.latitude, pos.coords.longitude, 15, 'GPS');
         }, function(err) {
-            alert(localStorage.getItem('lang') === 'ar' ? 'تعذر تحديد موقعك' : 'Unable to detect your location');
-        });
+            fetchLocationByIPAdmin(applyLocation, lang);
+        }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+    }
+
+    function fetchLocationByIPAdmin(applyLocation, lang) {
+        fetch('https://ipapi.co/json/')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data && data.latitude && data.longitude) {
+                    applyLocation(data.latitude, data.longitude, 12, 'IP');
+                    var locInput = document.querySelector('input[name="raw_location"]');
+                    if (locInput && !locInput.value) {
+                        var parts = [];
+                        if (data.city) parts.push(data.city);
+                        if (data.region) parts.push(data.region);
+                        if (data.country_name) parts.push(data.country_name);
+                        if (parts.length > 0) locInput.value = parts.join(' - ');
+                    }
+                } else {
+                    alert(lang === 'ar' ? 'تعذر تحديد موقعك. حدد الموقع يدوياً من الخريطة.' : 'Unable to detect your location. Set it manually on the map.');
+                }
+            })
+            .catch(function() {
+                alert(lang === 'ar' ? 'تعذر تحديد موقعك. حدد الموقع يدوياً من الخريطة.' : 'Unable to detect your location. Set it manually on the map.');
+            });
     }
 
     const latInput = document.getElementById('latitude');

@@ -272,6 +272,38 @@
                     </div>
                 </div>
 
+                @php
+                    $allImages = [];
+                    if ($report->images && count($report->images) > 0) {
+                        $allImages = $report->images;
+                    }
+                    if ($report->image_path && !in_array($report->image_path, $allImages)) {
+                        array_unshift($allImages, $report->image_path);
+                    }
+                    $hasImages = count($allImages) > 0;
+                @endphp
+
+                @if($hasImages)
+                <div class="mb-6 relative">
+                    <div id="imgCarousel" style="position:relative;overflow:hidden;border-radius:16px;">
+                        @foreach($allImages as $i => $image)
+                        <img src="{{ asset('storage/' . $image) }}" alt="Report Image" style="height:400px;width:100%;object-fit:cover;display:none;cursor:pointer;" onclick="openLightbox(this.src)" class="carousel-slide" data-index="{{ $i }}">
+                        @endforeach
+                    </div>
+                    @if(count($allImages) > 1)
+                    <button onclick="prevSlide()" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);color:#fff;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.7)'" onmouseout="this.style.background='rgba(0,0,0,0.45)'">&#8249;</button>
+                    <button onclick="nextSlide()" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);color:#fff;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.7)'" onmouseout="this.style.background='rgba(0,0,0,0.45)'">&#8250;</button>
+                    <div id="carouselDots" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;">
+                        @foreach($allImages as $i => $image)
+                        <span onclick="goToSlide({{ $i }})" style="width:{{ $i === 0 ? '24px' : '10px' }};height:10px;border-radius:9999px;background:{{ $i === 0 ? '#fff' : 'rgba(255,255,255,0.5)' }};cursor:pointer;transition:all 0.3s;" class="carousel-dot"></span>
+                        @endforeach
+                    </div>
+                    <div style="position:absolute;top:12px;left:12px;z-index:10;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);color:#fff;padding:4px 12px;border-radius:9999px;font-size:12px;font-weight:700;">
+                        <span id="carouselCounter">1</span>/{{ count($allImages) }}
+                    </div>
+                    @endif
+                </div>
+                @endif
                 <div class="space-y-5">
                     <div>
                         <div class="flex items-center gap-3 mb-2.5">
@@ -416,27 +448,6 @@
                 @endif
             </div>
 
-            @if($report->images && count($report->images) > 0)
-            <div class="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl mb-6">
-                <div class="flex items-center gap-3 mb-5">
-                    <div class="section-icon bg-[#78A9C1]/15">
-                        <svg class="w-5 h-5 text-[#78A9C1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-sm font-bold text-[#0B0B45]/70 uppercase tracking-wide" data-ar="الصور المرفقة" data-en="Attached Images">الصور المرفقة</h3>
-                    <span class="mr-auto text-xs text-[#0B0B45]/40 bg-[#0B0B45]/5 px-2.5 py-1 rounded-full">{{ count($report->images) }} <span data-ar="صورة" data-en="Images">صورة</span></span>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                    @foreach($report->images as $image)
-                    <div class="image-card">
-                        <img src="{{ asset('storage/' . $image) }}" alt="Report Image">
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-
             @if($report->pdf_file)
             <div class="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl mb-6">
                 <div class="flex items-center gap-3 mb-5">
@@ -482,6 +493,67 @@
             @endif
         </div>
     </div>
+
+    <div id="lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90 cursor-pointer" onclick="closeLightbox()">
+        <button class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl font-bold z-10">&times;</button>
+        <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:85vh;border-radius:12px;object-fit:contain;">
+    </div>
+
+    <script>
+        var currentSlide = 0;
+        var slides = document.querySelectorAll('.carousel-slide');
+        var dots = document.querySelectorAll('.carousel-dot');
+        var totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(function(s) { s.style.display = 'none'; });
+            dots.forEach(function(d, i) {
+                d.style.width = i === n ? '24px' : '10px';
+                d.style.background = i === n ? '#fff' : 'rgba(255,255,255,0.5)';
+            });
+            slides[n].style.display = 'block';
+            var counter = document.getElementById('carouselCounter');
+            if (counter) counter.textContent = n + 1;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(n);
+        }
+
+        if (totalSlides > 0) showSlide(0);
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').classList.contains('flex')) return;
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+    </script>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.getElementById('lightbox').classList.add('flex');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox').classList.remove('flex');
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
 
     <script>
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {

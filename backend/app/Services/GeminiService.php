@@ -17,6 +17,8 @@ class GeminiService
     public function analyzeDamage(array $reportData): array
     {
         try {
+            $lang = $this->detectLanguage($reportData);
+            $reportData['_lang'] = $lang;
             $prompt = $this->buildPrompt($reportData);
             $parts = $this->buildParts($prompt, $reportData);
 
@@ -61,21 +63,86 @@ class GeminiService
                 }
             }
 
-            return $this->parseResponse($response->json());
+            return $this->parseResponse($response->json(), $reportData['_lang'] ?? 'ar');
 
         } catch (\Exception $e) {
             Log::error('Gemini service error', [
                 'error' => $e->getMessage(),
                 'report_data_keys' => array_keys($reportData)
             ]);
+
+            $lang = $reportData['_lang'] ?? 'ar';
+            if ($lang === 'en') {
+                return [
+                    'normalized_location' => 'Unknown',
+                    'damage_score' => 5,
+                    'damage_level' => 'moderate',
+                    'damage_category' => 'moderate',
+                    'analysis_text' => 'AI analysis unavailable',
+                    'is_relevant' => true
+                ];
+            }
+
             throw $e;
         }
     }
 
+    protected function detectLanguage(array $data): string
+    {
+        $text = trim(($data['raw_description'] ?? '') . ' ' . ($data['raw_location'] ?? ''));
+        if (empty($text)) {
+            return 'ar';
+        }
+        $arabicCount = preg_match_all('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}]/u', $text);
+        $latinCount = preg_match_all('/[a-zA-Z]/', $text);
+        return ($latinCount > $arabicCount) ? 'en' : 'ar';
+    }
+
     protected function buildPrompt(array $data): string
     {
+        $lang = $this->detectLanguage($data);
+        $data['_lang'] = $lang;
+
         $hasImage = !empty($data['image_path']) && file_exists(storage_path('app/public/' . $data['image_path']));
-        $hasDescription = !empty($data['raw_description']);
+
+        if ($lang === 'en') {
+            $imageInstruction = $hasImage ? "Image attached: Yes" : "Image attached: No";
+
+            return "You are a strict expert assessor of structural damage to buildings and infrastructure in Syria. Your task is to reject any report that does not show real structural damage to buildings.
+
+=== Strict Rejection Criteria ===
+You MUST set is_relevant = false, damage_score = 0, and damage_category = \"rejected\" immediately if the report shows:
+1. Household items, utensils, cups, plates, or any personal belongings (even if broken).
+2. People, animals, plants, or natural scenery.
+3. Household furniture, carpets, upholstery, or electrical appliances.
+4. Streets or walls that are completely intact with no deep structural cracks or rubble.
+5. Selfie photos or images unrelated to structural engineering.
+
+**Remember**: We ONLY care about damage to (walls, ceilings, columns, roads, bridges, infrastructure). Anything else is completely rejected.
+
+=== Documentation Rules ===
+1. Location: Must be in \"Governorate - Area\" format (example: \"Damascus - Al-Midan\").
+2. Structural Assessment (1-10):
+   - 1-3: Minor superficial cracks in walls.
+   - 4-6: Moderate structural cracks, falling parts of balconies.
+   - 7-8: Partial building collapse (roof or load-bearing wall failure).
+   - 9-10: Total or imminent building collapse.
+
+=== Available Data ===
+- {$imageInstruction}
+- User description: \"" . ($data['raw_description'] ?? 'No description') . "\"
+- Entered location: \"" . ($data['raw_location'] ?? 'Unknown') . "\"
+
+=== Required Output (JSON only) ===
+Answer strictly in the following format:
+{
+  \"is_relevant\": boolean,
+  \"normalized_location\": \"Governorate - Area\" (or \"Rejected\" if not applicable),
+  \"damage_score\": number from 0 to 10 (0 if rejected),
+  \"damage_category\": \"rejected\" or \"minor\" or \"moderate\" or \"severe\" or \"critical\",
+  \"analysis_text\": \"Write the rejection reason in detail (e.g., The image shows household items and no structural damage) or the structural analysis IN ENGLISH\"
+}";
+        }
 
         $imageInstruction = $hasImage
             ? "صورة مرفقة: نعم"
@@ -152,19 +219,19 @@ class GeminiService
         }
     }
 
-    protected function parseResponse(array $data): array
+    protected function parseResponse(array $data, string $lang = 'ar'): array
     {
         $text = $data['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
         if (empty($text)) {
-            return $this->defaultResult();
+            return $this->defaultResult($lang);
         }
 
         $json = null;
         if (preg_match('/\{.*\}/s', $text, $matches)) {
             $json = json_decode($matches[0], true);
         }
-        
+
         if (!$json) {
             $json = json_decode($text, true);
         }
@@ -172,27 +239,30 @@ class GeminiService
         if ($json && is_array($json)) {
             $isRelevant = (bool)($json['is_relevant'] ?? true);
             $score = isset($json['damage_score']) ? intval($json['damage_score']) : 5;
-            
+
             if (!$isRelevant) {
                 $score = 0;
             }
-            
+
             $score = max(0, min(10, $score));
             $category = $json['damage_category'] ?? $this->scoreToCategory($score);
-            
+
             if ($score == 0) $category = 'rejected';
 
+            $defaultLocation = $lang === 'en' ? 'Unknown' : 'غير محدد';
+            $defaultAnalysis = $lang === 'en' ? 'AI analysis unavailable' : 'التحليل غير متوفر';
+
             return [
-                'normalized_location' => $json['normalized_location'] ?? 'غير محدد',
+                'normalized_location' => $json['normalized_location'] ?? $defaultLocation,
                 'damage_score' => $score,
                 'damage_level' => $category,
                 'damage_category' => $category,
-                'analysis_text' => $json['analysis_text'] ?? 'التحليل غير متوفر',
+                'analysis_text' => $json['analysis_text'] ?? $defaultAnalysis,
                 'is_relevant' => $isRelevant
             ];
         }
 
-        return $this->defaultResult();
+        return $this->defaultResult($lang);
     }
 
     protected function scoreToCategory(int $score): string
@@ -212,8 +282,19 @@ class GeminiService
         return 'critical';
     }
 
-    protected function defaultResult(): array
+    protected function defaultResult(string $lang = 'ar'): array
     {
+        if ($lang === 'en') {
+            return [
+                'normalized_location' => 'Unknown',
+                'damage_score' => 5,
+                'damage_level' => 'moderate',
+                'damage_category' => 'moderate',
+                'analysis_text' => 'AI analysis unavailable',
+                'is_relevant' => true
+            ];
+        }
+
         return [
             'normalized_location' => 'غير محدد',
             'damage_score' => 5,

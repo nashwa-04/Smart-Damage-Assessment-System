@@ -1,26 +1,32 @@
-# إصلاح مشكلة الفلترة - حقول عربية عند اللغة الإنجليزية
+# إصلاح مشكلة تحديث التقرير - 405 Method Not Allowed
 
 ## المشكلة
-عند تبديل اللغة إلى الإنجليزية في صفحة `/admin/reports`، كانت عناصر `<select>` (القوائم المنسدلة) في قسم الفلترة تبقى بالنص العربي.
+تطبيق Flutter يرسل `POST /api/reports/105` لتحديث تقرير، لكن Laravel لم يكن لديه راوت للتحديث، مما أدى لخطأ **405 Method Not Allowed**.
 
-## السبب
-دالة `applyLanguage` في `admin/layouts/app.blade.php:121` كانت تستخدم `el.textContent` لتحديث جميع العناصر بما فيها `<option>`، لكن المتصفحات لا تعيد رسم النص المعروض في زر الـ `<select>` (العنصر المحدد) بعد تحديث `textContent` للـ `<option>` مباشرة.
+## الحل المطبق
 
-## الحل المطبّق
-تم تعديل دالة `applyLanguage` في الملف `backend/resources/views/admin/layouts/app.blade.php`:
+### 1. إضافة راوت التحديث في `routes/api.php`
+```php
+// User routes
+Route::match(['put', 'post'], '/reports/{id}', [ReportController::class, 'update']);
 
-1. **استبعاد `<option>` من التحديث العام** - لتجنب التحديث المزدوج
-2. **معالجة `<select>` بشكل منفصل** - تحديث نصوص جميع `<option>` داخل كل `<select>` ثم إعادة تعيين القيمة المحددة لإجبار المتصفح على إعادة الرسم:
-   ```javascript
-   document.querySelectorAll('select').forEach(select => {
-       select.querySelectorAll('option[data-' + lang + ']').forEach(option => {
-           option.textContent = option.getAttribute('data-' + lang);
-       });
-       const currentVal = select.value;
-       select.value = '';
-       select.value = currentVal; // إجبار إعادة الرسم
-   });
-   ```
+// Admin routes
+Route::put('/reports/{id}', [ReportController::class, 'update']);
+```
 
-## الملف المعدّل
-- `backend/resources/views/admin/layouts/app.blade.php` - السطر 121-145
+### 2. إضافة دالة `update()` في `ReportController`
+- تتحقق من ملكية التقرير
+- تحدث الصور/PDF/البيانات
+- تعيد تشغيل تحليل Gemini AI
+- ترجع التقرير المحدث
+
+### 3. إنشاء `UpdateReportRequest`
+- Validation مشابه لـ `StoreReportRequest` لكن بحقول `sometimes`
+
+### 4. مسح الكاش
+- `php artisan route:clear`
+- `php artisan config:clear`
+- `php artisan cache:clear`
+
+## النتيجة
+الآن `POST /api/reports/{id}` يعمل بشكل صحيح لتحديث التقارير.

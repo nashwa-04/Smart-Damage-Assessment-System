@@ -291,16 +291,16 @@ border-radius: 4px;
                         </svg>
                     </div>
                     <div>
-<h1 class="text-base sm:text-lg font-bold text-light leading-tight whitespace-nowrap">نظام تقييم الأضرار</h1>
+<h1 class="text-base sm:text-lg font-bold text-light leading-tight whitespace-nowrap" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
 <span class="text-[9px] sm:text-[10px] text-sage font-medium tracking-wider">SMART DAMAGE ASSESSMENT</span>
                     </div>
                 </div>
 
                 <div class="hidden md:flex items-center gap-8">
-        <a href="#home" class="text-white hover:text-sand transition-colors text-sm font-medium">الرئيسية</a>
-        <a href="#features" class="text-white hover:text-sand transition-colors text-sm font-medium">المميزات</a>
-        <a href="#how-it-works" class="text-white hover:text-sand transition-colors text-sm font-medium">كيف يعمل</a>
-        <a href="#stats" class="text-white hover:text-sand transition-colors text-sm font-medium">الإحصائيات</a>
+        <a href="#home" class="text-white hover:text-sand transition-colors text-sm font-medium" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+        <a href="#features" class="text-white hover:text-sand transition-colors text-sm font-medium" data-ar="المميزات" data-en="Features">المميزات</a>
+        <a href="#how-it-works" class="text-white hover:text-sand transition-colors text-sm font-medium" data-ar="كيف يعمل" data-en="How It Works">كيف يعمل</a>
+        <a href="#stats" class="text-white hover:text-sand transition-colors text-sm font-medium" data-ar="الإحصائيات" data-en="Statistics">الإحصائيات</a>
                 </div>
 
                 <div class="hidden md:flex items-center gap-3">
@@ -345,14 +345,14 @@ border-radius: 4px;
       </svg>
     </button>
     <div class="mt-12 space-y-4">
-      <a href="#home" class="block text-white/80 hover:text-white py-2 text-lg">الرئيسية</a>
-      <a href="#features" class="block text-white/80 hover:text-white py-2 text-lg">المميزات</a>
-      <a href="#how-it-works" class="block text-white/80 hover:text-white py-2 text-lg">كيف يعمل</a>
-      <a href="#stats" class="block text-white/80 hover:text-white py-2 text-lg">الإحصائيات</a>
+      <a href="#home" class="block text-white/80 hover:text-white py-2 text-lg" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+      <a href="#features" class="block text-white/80 hover:text-white py-2 text-lg" data-ar="المميزات" data-en="Features">المميزات</a>
+      <a href="#how-it-works" class="block text-white/80 hover:text-white py-2 text-lg" data-ar="كيف يعمل" data-en="How It Works">كيف يعمل</a>
+      <a href="#stats" class="block text-white/80 hover:text-white py-2 text-lg" data-ar="الإحصائيات" data-en="Statistics">الإحصائيات</a>
       <hr class="border-white/10">
       @guest
-      <a href="{{ route('login') }}" class="block text-center py-3 rounded-xl text-white font-medium" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">تسجيل الدخول</a>
-      <a href="{{ route('register') }}" class="block text-center py-3 btn-primary rounded-xl font-semibold" style="color: #0B0B45 !important;">إنشاء حساب</a>
+      <a href="{{ route('login') }}" class="block text-center py-3 rounded-xl text-white font-medium" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</a>
+      <a href="{{ route('register') }}" class="block text-center py-3 btn-primary rounded-xl font-semibold" style="color: #0B0B45 !important;" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</a>
       @endguest
     </div>
   </div>
@@ -411,9 +411,9 @@ border-radius: 4px;
 
 <div class="mt-8 sm:mt-14 flex items-center gap-4 sm:gap-8">
 <div class="flex -space-x-2 sm:-space-x-3 rtl:space-x-reverse">
-<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">م</div>
-<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">أ</div>
-<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">س</div>
+<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">M</div>
+<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">A</div>
+<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold">S</div>
 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-beige flex items-center justify-center text-[10px] sm:text-xs font-bold text-charcoal">+</div>
 </div>
 <div>
@@ -442,7 +442,7 @@ border-radius: 4px;
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
-                                <span class="text-xs text-emerald-300 font-medium">AI جاهز</span>
+                                <span class="text-xs text-emerald-300 font-medium" data-ar="AI جاهز" data-en="AI Ready">AI جاهز</span>
                             </div>
                         </div>
 
@@ -454,7 +454,7 @@ border-radius: 4px;
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
                                 </div>
-                                <span class="text-xs text-blue-300 font-medium">GPS نشط</span>
+                                <span class="text-xs text-blue-300 font-medium" data-ar="GPS نشط" data-en="GPS Active">GPS نشط</span>
                             </div>
                         </div>
                     </div>
@@ -722,7 +722,7 @@ border-radius: 4px;
 </svg>
                         </div>
                         <div>
-                            <h3 class="text-charcoal font-bold text-base sm:text-lg">نظام تقييم الأضرار</h3>
+                            <h3 class="text-charcoal font-bold text-base sm:text-lg" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h3>
                             <p class="text-charcoal/50 text-xs">Smart Damage Assessment System</p>
                         </div>
                     </div>
@@ -776,8 +776,38 @@ border-radius: 4px;
             langText.textContent = lang === 'ar' ? 'English' : 'العربية';
 
             document.querySelectorAll('[data-' + lang + ']').forEach(el => {
-                el.textContent = el.getAttribute('data-' + lang);
+                var newText = el.getAttribute('data-' + lang);
+                var hasChildElements = false;
+                for (var i = 0; i < el.childNodes.length; i++) {
+                    if (el.childNodes[i].nodeType === 1) {
+                        hasChildElements = true;
+                        break;
+                    }
+                }
+                if (hasChildElements) {
+                    for (var i = 0; i < el.childNodes.length; i++) {
+                        if (el.childNodes[i].nodeType === 3 && el.childNodes[i].textContent.trim() !== '') {
+                            el.childNodes[i].textContent = newText;
+                            break;
+                        }
+                    }
+                } else {
+                    el.textContent = newText;
+                }
             });
+
+            document.title = lang === 'ar' ? 'نظام تقييم الأضرار الذكي' : 'Smart Damage Assessment System';
+
+            var mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu) {
+                if (lang === 'en') {
+                    mobileMenu.style.right = 'auto';
+                    mobileMenu.style.left = '0';
+                } else {
+                    mobileMenu.style.left = 'auto';
+                    mobileMenu.style.right = '0';
+                }
+            }
         }
 
         applyLanguage(currentLang);

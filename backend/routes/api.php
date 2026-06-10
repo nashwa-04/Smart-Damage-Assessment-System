@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports', [App\Http\Controllers\Api\ReportController::class, 'index']);
     Route::post('/reports', [App\Http\Controllers\Api\ReportController::class, 'store']);
     Route::get('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'show']);
+    Route::match(['put', 'post'], '/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'update']);
     Route::delete('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'destroy']);
 });
 
@@ -42,5 +43,6 @@ Route::middleware(['auth:sanctum', 'admin.api'])->prefix('admin')->group(functio
     // Reports management
     Route::get('/reports', [App\Http\Controllers\Api\ReportController::class, 'index']);
     Route::get('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'show']);
+    Route::put('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'update']);
     Route::delete('/reports/{id}', [App\Http\Controllers\Api\ReportController::class, 'destroy']);
 });

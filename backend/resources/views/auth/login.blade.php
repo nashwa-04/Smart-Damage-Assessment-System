@@ -264,8 +264,25 @@
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             document.getElementById('langText').textContent = lang === 'ar' ? 'English' : 'العربية';
             document.querySelectorAll('[data-' + lang + ']').forEach(el => {
-                el.textContent = el.getAttribute('data-' + lang);
+                var newText = el.getAttribute('data-' + lang);
+                var hasChildElements = false;
+                for (var i = 0; i < el.childNodes.length; i++) {
+                    if (el.childNodes[i].nodeType === 1) { hasChildElements = true; break; }
+                }
+                if (hasChildElements) {
+                    for (var i = 0; i < el.childNodes.length; i++) {
+                        if (el.childNodes[i].nodeType === 3 && el.childNodes[i].textContent.trim() !== '') {
+                            el.childNodes[i].textContent = newText; break;
+                        }
+                    }
+                } else {
+                    el.textContent = newText;
+                }
             });
+            document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(el => {
+                el.setAttribute('placeholder', el.getAttribute('data-' + lang + '-placeholder'));
+            });
+            document.title = lang === 'ar' ? 'تسجيل الدخول - نظام تقييم الأضرار' : 'Login - Damage Assessment System';
         }
         applyLanguage(currentLang);
         document.getElementById('langToggle').addEventListener('click', function() {

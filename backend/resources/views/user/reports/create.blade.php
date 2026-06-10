@@ -251,12 +251,14 @@
 
                         <div>
                             <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="الصور" data-en="Images">الصور</label>
+                            <p class="text-xs text-[#0B0B45]/40 mb-2" data-ar="يمكنك اختيار صورة واحدة أو أكثر" data-en="You can select one or more images">يمكنك اختيار صورة واحدة أو أكثر</p>
                             <input type="file" name="images[]" multiple accept="image/*"
                                 class="w-full px-4 py-3 input-style rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#0B0B45] file:text-[#FAFAFA] hover:file:bg-[#1a1a3e] transition-all">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="ملف PDF" data-en="PDF File">ملف PDF</label>
+                            <p class="text-xs text-[#0B0B45]/40 mb-2" data-ar="ملف PDF اختياري يحتوي على تفاصيل إضافية" data-en="Optional PDF file with additional details">ملف PDF اختياري يحتوي على تفاصيل إضافية</p>
                             <input type="file" name="pdf_file" accept=".pdf"
                                 class="w-full px-4 py-3 input-style rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#0B0B45] file:text-[#FAFAFA] hover:file:bg-[#1a1a3e] transition-all">
                         </div>
@@ -267,7 +269,7 @@
                                 <div class="flex gap-2 mb-2">
                                     <input type="url" name="video_links[]"
                                         class="flex-1 px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 focus:outline-none focus:ring-2 focus:ring-[#C9A97C]/50 transition-all"
-                                        placeholder="https://youtube.com/watch?v=...">
+                                        placeholder="https://youtube.com/watch?v=..." data-ar-placeholder="https://youtube.com/watch?v=..." data-en-placeholder="https://youtube.com/watch?v=...">
                                 </div>
                             </div>
                             <button type="button" onclick="addVideoLink()" class="text-[#C9A97C] hover:text-[#B08D5F] text-sm mt-2 transition-all">
@@ -328,7 +330,7 @@
                     setMarker(lat, lng, 16);
 
                     statusEl.className = 'mb-2 p-3 rounded-xl text-sm font-medium bg-[#dcfce7] text-[#15803d]';
-                    statusEl.innerHTML = '<svg style="display:inline;vertical-align:middle;width:16px;height:16px;margin-left:4px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> ' + (lang === 'ar' ? 'تم تحديد موقعك بنجاح' : 'Location detected successfully');
+                    statusEl.innerHTML = '<svg style="display:inline;vertical-align:middle;width:16px;height:16px;margin-left:4px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> ' + (lang === 'ar' ? 'تم تحديد موقعك بنجاح (GPS)' : 'Location detected successfully (GPS)');
 
                     var locInput = document.querySelector('input[name="raw_location"]');
                     if (locInput && !locInput.value) {
@@ -346,24 +348,70 @@
                     btn.style.opacity = '1';
                 },
                 function(error) {
-                    var msg = lang === 'ar' ? 'تعذر تحديد موقعك' : 'Unable to detect your location';
-                    if (error.code === 1) msg = lang === 'ar' ? 'تم رفض إذن تحديد الموقع' : 'Location permission denied';
-                    else if (error.code === 2) msg = lang === 'ar' ? 'الموقع غير متاح' : 'Location unavailable';
-                    else if (error.code === 3) msg = lang === 'ar' ? 'انتهت مهلة تحديد الموقع' : 'Location request timed out';
-
-                    statusEl.className = 'mb-2 p-3 rounded-xl text-sm font-medium bg-[#fee2e2] text-[#b91c1c]';
-                    statusEl.textContent = msg;
-                    btn.disabled = false;
-                    btn.style.opacity = '1';
+                    var gpsDenied = (error.code === 1);
+                    if (gpsDenied) {
+                        var permMsg = lang === 'ar' ? 'تم رفض إذن الموقع، جارٍ المحاولة بالشبكة...' : 'Location permission denied, trying network location...';
+                        statusEl.className = 'mb-2 p-3 rounded-xl text-sm font-medium bg-[#dbeafe] text-[#1d4ed8]';
+                        statusEl.textContent = permMsg;
+                    }
+                    fetchLocationByIP(statusEl, btn, lang, gpsDenied);
                 },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
         }
 
+        function fetchLocationByIP(statusEl, btn, lang, gpsDenied) {
+            fetch('https://ipapi.co/json/')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data && data.latitude && data.longitude) {
+                        var lat = data.latitude;
+                        var lng = data.longitude;
+                        setMarker(lat, lng, 12);
+
+                        var accuracy = gpsDenied
+                            ? (lang === 'ar' ? 'تقريبي (بدون GPS)' : 'Approximate (no GPS)')
+                            : (lang === 'ar' ? 'تقريبي (عنوان IP)' : 'Approximate (IP-based)');
+                        statusEl.className = 'mb-2 p-3 rounded-xl text-sm font-medium bg-[#fef9c3] text-[#a16207]';
+                        statusEl.innerHTML = '⚠️ ' + (lang === 'ar' ? 'تم تحديد الموقع: ' : 'Location detected: ') + accuracy;
+
+                        var locInput = document.querySelector('input[name="raw_location"]');
+                        if (locInput && !locInput.value) {
+                            var parts = [];
+                            if (data.city) parts.push(data.city);
+                            if (data.region) parts.push(data.region);
+                            if (data.country_name) parts.push(data.country_name);
+                            if (parts.length > 0) {
+                                locInput.value = parts.join(' - ');
+                            }
+                        }
+
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                    } else {
+                        showLocationError(statusEl, btn, lang);
+                    }
+                })
+                .catch(function() {
+                    showLocationError(statusEl, btn, lang);
+                });
+        }
+
+        function showLocationError(statusEl, btn, lang) {
+            statusEl.className = 'mb-2 p-3 rounded-xl text-sm font-medium bg-[#fee2e2] text-[#b91c1c]';
+            statusEl.textContent = lang === 'ar'
+                ? 'تعذر تحديد موقعك. اضغط على الخريطة لتحديد الموقع يدوياً.'
+                : 'Unable to detect your location. Click on the map to set it manually.';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+
         function addVideoLink() {
+            var lang = localStorage.getItem('lang') || 'ar';
             var div = document.createElement('div');
             div.className = 'flex gap-2 mb-2';
-            div.innerHTML = '<input type="url" name="video_links[]" class="flex-1 px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 focus:outline-none focus:ring-2 focus:ring-[#C9A97C]/50 transition-all" placeholder="https://youtube.com/watch?v=...">';
+            var ph = lang === 'ar' ? 'https://youtube.com/watch?v=...' : 'https://youtube.com/watch?v=...';
+            div.innerHTML = '<input type="url" name="video_links[]" class="flex-1 px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 focus:outline-none focus:ring-2 focus:ring-[#C9A97C]/50 transition-all" placeholder="' + ph + '">';
             document.getElementById('video-links').appendChild(div);
         }
     </script>

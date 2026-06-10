@@ -43,11 +43,12 @@ class AnalyzeDamageJob implements ShouldQueue
 
         if (empty($allImages) && empty($report->raw_description)) {
             Log::warning('No data found for AI analysis (no images and no description)', ['report_id' => $this->reportId]);
+            $isEn = $this->isEnglish($report->raw_description . ' ' . $report->raw_location);
             $report->update([
                 'status' => 'completed',
-                'ai_analysis' => 'لم يتم التحليل: لا توجد بيانات كافية (صور أو وصف)',
+                'ai_analysis' => $isEn ? 'Not analyzed: insufficient data (no images or description)' : 'لم يتم التحليل: لا توجد بيانات كافية (صور أو وصف)',
                 'ai_damage_level' => 'rejected',
-                'ai_location' => $report->raw_location ?? 'غير محدد',
+                'ai_location' => $report->raw_location ?? ($isEn ? 'Unknown' : 'غير محدد'),
             ]);
             return;
         }
@@ -96,11 +97,12 @@ class AnalyzeDamageJob implements ShouldQueue
             ]);
 
         } catch (\Exception $e) {
+            $isEn = $this->isEnglish($report->raw_description . ' ' . $report->raw_location);
             $report->update([
                 'status' => 'completed',
-                'ai_analysis' => 'فشل التحليل: ' . $e->getMessage(),
-                'ai_damage_level' => 'medium',
-                'ai_location' => $report->raw_location ?? 'غير محدد',
+                'ai_analysis' => $isEn ? 'Analysis failed: ' . $e->getMessage() : 'فشل التحليل: ' . $e->getMessage(),
+                'ai_damage_level' => 'moderate',
+                'ai_location' => $report->raw_location ?? ($isEn ? 'Unknown' : 'غير محدد'),
             ]);
 
             Log::error('AI processing failed - fallback values applied', [
@@ -114,12 +116,20 @@ class AnalyzeDamageJob implements ShouldQueue
     {
         $report = Report::find($this->reportId);
         if ($report) {
+            $isEn = $this->isEnglish($report->raw_description . ' ' . $report->raw_location);
             $report->update([
                 'status' => 'completed',
-                'ai_analysis' => 'فشل التحليل: ' . $exception->getMessage(),
-                'ai_damage_level' => 'medium',
-                'ai_location' => $report->raw_location ?? 'غير محدد',
+                'ai_analysis' => $isEn ? 'Analysis failed: ' . $exception->getMessage() : 'فشل التحليل: ' . $exception->getMessage(),
+                'ai_damage_level' => 'moderate',
+                'ai_location' => $report->raw_location ?? ($isEn ? 'Unknown' : 'غير محدد'),
             ]);
         }
+    }
+
+    protected function isEnglish(string $text): bool
+    {
+        $arabicCount = preg_match_all('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}]/u', $text);
+        $latinCount = preg_match_all('/[a-zA-Z]/', $text);
+        return ($latinCount > $arabicCount);
     }
 }

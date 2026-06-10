@@ -168,9 +168,16 @@
 
     <div class="pt-24 pb-12 px-4 min-h-screen">
         <div class="max-w-3xl mx-auto">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-[#0B0B45]" data-ar="الملف الشخصي" data-en="Profile">الملف الشخصي</h2>
-                <p class="text-[#0B0B45]/60 mt-2" data-ar="إدارة معلومات حسابك" data-en="Manage your account info">إدارة معلومات حسابك</p>
+            <div class="flex items-center gap-4 mb-8">
+                <a href="{{ route('user.dashboard') }}" class="w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition-colors shrink-0" style="background: rgba(201, 169, 124, 0.1);">
+                    <svg class="w-5 h-5" style="color: #C9A97C;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </a>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-[#0B0B45]" data-ar="الملف الشخصي" data-en="Profile">الملف الشخصي</h2>
+                    <p class="text-[#0B0B45]/60 mt-0.5 text-sm" data-ar="إدارة معلومات حسابك" data-en="Manage your account info">إدارة معلومات حسابك</p>
+                </div>
             </div>
 
             @if(session('success'))
