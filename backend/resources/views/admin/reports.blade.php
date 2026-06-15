@@ -29,27 +29,31 @@
         color: rgba(11, 11, 69, 0.45);
         margin-bottom: 4px;
     }
+    .date-ar { display: inline; }
+    .date-en { display: none; }
+    html[lang="en"] .date-ar { display: none; }
+    html[lang="en"] .date-en { display: inline; }
 </style>
 @endpush
 
 @section('content')
 <!-- Header -->
-<div class="mb-8 fade-in">
-    <div class="glass-card rounded-3xl p-8 shadow-xl">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg bg-[#0B0B45]">
-                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="mb-4 sm:mb-6 lg:mb-8 fade-in">
+    <div class="glass-card rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg bg-[#0B0B45] shrink-0">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-3xl font-bold" style="color: #0B0B45;" data-ar="جميع التقارير" data-en="All Reports">جميع التقارير</h2>
-                    <p class="mt-1" style="color: rgba(11, 11, 69, 0.6);" data-ar="إدارة وعرض جميع التقارير" data-en="Manage and view all reports">إدارة وعرض جميع التقارير</p>
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold" style="color: #0B0B45;" data-ar="جميع التقارير" data-en="All Reports">جميع التقارير</h2>
+                    <p class="mt-1 text-xs sm:text-sm lg:text-base" style="color: rgba(11, 11, 69, 0.6);" data-ar="إدارة وعرض جميع التقارير" data-en="Manage and view all reports">إدارة وعرض جميع التقارير</p>
                 </div>
             </div>
-            <a href="{{ route('admin.reports.create') }}" class="px-6 py-3 text-white rounded-xl font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg hover:opacity-90" style="background: linear-gradient(135deg, #C9A97C, #B08D5F);">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.reports.create') }}" class="px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 text-white rounded-lg sm:rounded-xl font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg hover:opacity-90 text-xs sm:text-sm lg:text-base" style="background: linear-gradient(135deg, #C9A97C, #B08D5F);">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
                 <span data-ar="تقرير جديد" data-en="New Report">تقرير جديد</span>
@@ -75,8 +79,8 @@
 
 @php $activeFilters = collect(request()->only(['search', 'status', 'ai_damage_level', 'admin_approval_status', 'from_date', 'to_date', 'user_id']))->filter()->count(); @endphp
 
-<div class="rounded-2xl shadow-lg overflow-hidden fade-in mb-6" style="background: #0B0B45;">
-    <div class="px-6 py-4 flex items-center justify-between cursor-pointer filter-toggle" onclick="document.getElementById('filterBody').classList.toggle('open'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+<div class="rounded-2xl shadow-lg overflow-hidden fade-in mb-4 sm:mb-6" style="background: #0B0B45;">
+    <div class="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between cursor-pointer filter-toggle" onclick="document.getElementById('filterBody').classList.toggle('open'); this.querySelector('.chevron').classList.toggle('rotate-180')">
         <div class="flex items-center gap-3">
             <svg class="w-5 h-5" style="color: #C9A97C;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
@@ -99,9 +103,9 @@
         </div>
     </div>
     <div id="filterBody" class="filter-body {{ $activeFilters > 0 ? 'open' : '' }}">
-        <div class="px-6 pb-5 pt-2" style="border-top: 1px solid rgba(201, 169, 124, 0.1);">
+        <div class="px-4 sm:px-6 pb-5 pt-2" style="border-top: 1px solid rgba(201, 169, 124, 0.1);">
             <form method="GET" action="{{ route('admin.reports') }}">
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div>
                         <label class="filter-label block" data-ar="بحث" data-en="Search">بحث</label>
                         <div class="relative">
@@ -174,27 +178,27 @@
 <!-- Reports Table -->
 <div class="glass-card rounded-2xl shadow-xl overflow-hidden fade-in">
     <div class="overflow-x-auto">
-        <table class="w-full">
+        <table class="w-full min-w-[800px]">
             <thead style="background: linear-gradient(to right, rgba(11, 11, 69, 0.9), #0B0B45);">
                 <tr>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white">#</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="الصورة" data-en="Image">الصورة</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="المستخدم" data-en="User">المستخدم</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="الموقع" data-en="Location">الموقع</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="مستوى الضرر" data-en="Damage Level">مستوى الضرر</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap">#</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="الصورة" data-en="Image">الصورة</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="المستخدم" data-en="User">المستخدم</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="الموقع" data-en="Location">الموقع</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="مستوى الضرر" data-en="Damage Level">مستوى الضرر</th>
 
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="الموافقة" data-en="Approval">الموافقة</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="التاريخ" data-en="Date">التاريخ</th>
-                    <th class="px-6 py-4 text-right text-sm font-bold text-white" data-ar="الإجراءات" data-en="Actions">الإجراءات</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="الموافقة" data-en="Approval">الموافقة</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="التاريخ" data-en="Date">التاريخ</th>
+                    <th class="px-3 sm:px-6 py-2 sm:py-4 text-right text-xs sm:text-sm font-bold text-white whitespace-nowrap" data-ar="الإجراءات" data-en="Actions">الإجراءات</th>
                 </tr>
             </thead>
             <tbody style="border-top: 1px solid rgba(201, 169, 124, 0.4);">
                 @forelse($reports as $report)
                 <tr class="transition-colors" style="border-bottom: 1px solid rgba(201, 169, 124, 0.3);">
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         <span class="font-bold" style="color: #C9A97C;">#{{ $report->id }}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         @php
                             $images = $report->images ?? [];
                             $firstImage = count($images) > 0 ? $images[0] : $report->image_path;
@@ -221,13 +225,13 @@
                             @endif
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         <span class="font-medium" style="color: #0B0B45;">{{ $report->user->name }}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         <span style="color: rgba(11, 11, 69, 0.8);">{{ $report->raw_location }}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         @php
                             $damageColors = [
                                 'critical' => '#dc2626',
@@ -270,7 +274,7 @@
                             @endif
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         @php
                             $isAiRejected = $report->ai_damage_level === 'rejected';
                             $isAdminRejected = $report->admin_approval_status === 'rejected' && !is_null($report->approved_by);
@@ -314,10 +318,12 @@
                             @endif
                         </div>
                     </td>
-                    <td class="px-6 py-4 align-middle">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4 align-middle">
                         @php
                             $isToday = $report->created_at->isToday();
                             $isYesterday = $report->created_at->isYesterday();
+                            $dateAr = $report->created_at->copy()->locale('ar')->translatedFormat('d M Y');
+                            $dateEn = $report->created_at->copy()->locale('en')->translatedFormat('d M Y');
                         @endphp
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 flex-shrink-0" style="color: rgba(11, 11, 69, 0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -329,13 +335,16 @@
                                 @elseif($isYesterday)
                                     <span class="text-xs font-bold" style="color: #ca8a04;" data-ar="أمس" data-en="Yesterday">أمس</span>
                                 @else
-                                    <span class="text-xs font-bold" style="color: #0B0B45;">{{ $report->created_at->format('d M Y') }}</span>
+                                    <span class="text-xs font-bold" style="color: #0B0B45;">
+                                        <span class="date-ar">{{ $dateAr }}</span>
+                                        <span class="date-en">{{ $dateEn }}</span>
+                                    </span>
                                 @endif
                                 <span class="text-[11px] font-mono" style="color: rgba(11, 11, 69, 0.4);">{{ $report->created_at->format('H:i') }}</span>
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-2 sm:py-4">
                         <div class="flex items-center gap-3">
                             <a href="{{ route('admin.reports.show', $report) }}" title="View">
                                 <svg class="w-5 h-5 transition-colors" style="color: rgba(11, 11, 69, 0.4);" onmouseover="this.style.color='#0B0B45'" onmouseout="this.style.color='rgba(11, 11, 69, 0.4)'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -362,7 +371,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="px-6 py-12 text-center">
+                    <td colspan="8" class="px-3 sm:px-6 py-12 text-center">
                         <div class="flex flex-col items-center">
                             <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -378,7 +387,7 @@
 </div>
 
 @if($reports->hasPages())
-<div class="mt-6 flex justify-center">
+<div class="mt-6 flex justify-center flex-wrap gap-2">
     {{ $reports->links() }}
 </div>
 @endif

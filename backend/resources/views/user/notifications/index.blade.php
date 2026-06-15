@@ -55,10 +55,15 @@
             border: 2px solid #0B0B45;
         }
         .type-icon {
-            width: 44px; height: 44px;
+            width: 38px; height: 38px;
             border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
+        }
+        @media (min-width: 640px) {
+            .type-icon {
+                width: 44px; height: 44px;
+            }
         }
         .type-approved { background: #dcfce7; color: #15803d; }
         .type-rejected { background: #fee2e2; color: #b91c1c; }
@@ -178,8 +183,8 @@
         <div class="max-w-4xl mx-auto">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-8">
                 <div>
-                    <h2 class="text-3xl font-bold text-[#0B0B45]" data-ar="الإشعارات" data-en="Notifications">الإشعارات</h2>
-                    <p class="text-[#0B0B45]/60 mt-2" data-ar="جميع التحديثات والتنبيهات الخاصة ببلاغاتك" data-en="All updates and alerts regarding your reports">جميع التحديثات والتنبيهات الخاصة ببلاغاتك</p>
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0B0B45]" data-ar="الإشعارات" data-en="Notifications">الإشعارات</h2>
+                    <p class="text-[#0B0B45]/60 mt-2 text-sm sm:text-base" data-ar="جميع التحديثات والتنبيهات الخاصة ببلاغاتك" data-en="All updates and alerts regarding your reports">جميع التحديثات والتنبيهات الخاصة ببلاغاتك</p>
                 </div>
                 @if($unreadCount > 0)
                 <form action="{{ route('user.notifications.markAllRead') }}" method="POST">
@@ -222,7 +227,7 @@
                     default => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
                 };
                 @endphp
-                <a href="{{ route('user.notifications.read', $notif) }}" class="notif-item {{ $notif->is_read ? '' : 'unread' }} rounded-xl p-4 flex items-start gap-4 animate-in" style="text-decoration: none; display: flex;" data-stagger="{{ $loop->index }}">
+                <a href="{{ route('user.notifications.read', $notif) }}" class="notif-item {{ $notif->is_read ? '' : 'unread' }} rounded-xl p-3 sm:p-4 flex items-start gap-3 sm:gap-4 animate-in" style="text-decoration: none; display: flex;" data-stagger="{{ $loop->index }}">
                     <div class="type-icon {{ $typeClass }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             {!! $typeIcon !!}
@@ -230,12 +235,12 @@
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-sm font-bold text-[#0B0B45]" data-ar="{{ $notif->title_ar }}" data-en="{{ $notif->title_en }}">{{ $notif->title_ar }}</h3>
+                            <h3 class="text-xs sm:text-sm font-bold text-[#0B0B45]" data-ar="{{ $notif->title_ar }}" data-en="{{ $notif->title_en }}">{{ $notif->title_ar }}</h3>
                             @if(!$notif->is_read)
                             <span class="w-2.5 h-2.5 rounded-full bg-[#C9A97C] flex-shrink-0"></span>
                             @endif
                         </div>
-                        <p class="text-[#0B0B45]/70 text-sm leading-relaxed" data-ar="{{ $notif->message_ar }}" data-en="{{ $notif->message_en }}">{{ $notif->message_ar }}</p>
+                        <p class="text-[#0B0B45]/70 text-xs sm:text-sm leading-relaxed" data-ar="{{ $notif->message_ar }}" data-en="{{ $notif->message_en }}">{{ $notif->message_ar }}</p>
                         <div class="flex items-center gap-3 mt-2">
                             <span class="text-[#0B0B45]/40 text-xs flex items-center gap-1">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -254,7 +259,7 @@
 
             @if($notifications->lastPage() > 1)
             <div class="mt-8 flex justify-center">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap justify-center">
                     @if($notifications->onFirstPage())
                     <span class="px-3 py-2 rounded-lg text-sm text-[#0B0B45]/30 border border-[#0B0B45]/10 cursor-not-allowed">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
@@ -294,7 +299,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
                     </div>
-                    <h3 class="text-[#0B0B45] text-xl font-bold mb-2" data-ar="لا توجد إشعارات" data-en="No Notifications">لا توجد إشعارات</h3>
+                    <h3 class="text-[#0B0B45] text-lg sm:text-xl font-bold mb-2" data-ar="لا توجد إشعارات" data-en="No Notifications">لا توجد إشعارات</h3>
                     <p class="text-[#0B0B45]/60 text-sm" data-ar="ستظهر هنا جميع التحديثات المتعلقة ببلاغاتك" data-en="All updates related to your reports will appear here">ستظهر هنا جميع التحديثات المتعلقة ببلاغاتك</p>
                 </div>
             </div>

@@ -217,9 +217,9 @@
 
     <div class="pt-24 pb-12 px-4 min-h-screen">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-[#0B0B45]" data-ar="بلاغاتي" data-en="My Reports">بلاغاتي</h2>
-                <p class="text-[#0B0B45]/60 mt-2" data-ar="جميع البلاغات التي قمت بإضافتها" data-en="All reports you have submitted">جميع البلاغات التي قمت بإضافتها</p>
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0B0B45]" data-ar="بلاغاتي" data-en="My Reports">بلاغاتي</h2>
+                <p class="text-[#0B0B45]/60 mt-2 text-sm sm:text-base" data-ar="جميع البلاغات التي قمت بإضافتها" data-en="All reports you have submitted">جميع البلاغات التي قمت بإضافتها</p>
             </div>
 
             @if(session('success'))
@@ -228,28 +228,28 @@
             </div>
             @endif
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-8">
-                <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 stat-card">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-6 mb-8">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6 stat-card">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-[#0B0B45]/60 text-xs sm:text-sm" data-ar="إجمالي البلاغات" data-en="Total Reports">إجمالي البلاغات</p>
-                            <p class="text-2xl sm:text-3xl font-bold text-[#0B0B45] mt-1 sm:mt-2">{{ $totalReports }}</p>
+                            <p class="text-xl sm:text-3xl font-bold text-[#0B0B45] mt-1 sm:mt-2">{{ $totalReports }}</p>
                         </div>
-                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0B0B45] to-[#1e293b] rounded-lg sm:rounded-xl flex items-center justify-center">
-                            <svg class="w-7 h-7 text-[#FAFAFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0B0B45] to-[#1e293b] rounded-lg sm:rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 sm:w-7 sm:h-7 text-[#FAFAFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 stat-card">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6 stat-card">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-[#0B0B45]/60 text-xs sm:text-sm" data-ar="قيد الانتظار" data-en="Pending">قيد الانتظار</p>
-                            <p class="text-2xl sm:text-3xl font-bold text-[#D6B570] mt-1 sm:mt-2">{{ $pendingReports }}</p>
+                            <p class="text-xl sm:text-3xl font-bold text-[#D6B570] mt-1 sm:mt-2">{{ $pendingReports }}</p>
                         </div>
-                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-[#D6B570] to-[#C9A97C] rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <div class="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-[#D6B570] to-[#C9A97C] rounded-lg sm:rounded-xl flex items-center justify-center">
                             <svg class="w-5 h-5 sm:w-7 sm:h-7 text-[#FAFAFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -257,13 +257,13 @@
                     </div>
                 </div>
 
-                <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 stat-card">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6 stat-card">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-[#0B0B45]/60 text-xs sm:text-sm" data-ar="قيد المعالجة" data-en="Processing">قيد المعالجة</p>
-                            <p class="text-2xl sm:text-3xl font-bold text-[#78A9C1] mt-1 sm:mt-2">{{ $processingReports }}</p>
+                            <p class="text-xl sm:text-3xl font-bold text-[#78A9C1] mt-1 sm:mt-2">{{ $processingReports }}</p>
                         </div>
-                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-[#78A9C1] to-[#5A8FA8] rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <div class="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-[#78A9C1] to-[#5A8FA8] rounded-lg sm:rounded-xl flex items-center justify-center">
                             <svg class="w-5 h-5 sm:w-7 sm:h-7 text-[#FAFAFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
@@ -271,13 +271,13 @@
                     </div>
                 </div>
 
-                <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 stat-card">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6 stat-card">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-[#0B0B45]/60 text-xs sm:text-sm" data-ar="مكتملة" data-en="Completed">مكتملة</p>
-                            <p class="text-2xl sm:text-3xl font-bold text-[#91A68A] mt-1 sm:mt-2">{{ $completedReports }}</p>
+                            <p class="text-xl sm:text-3xl font-bold text-[#91A68A] mt-1 sm:mt-2">{{ $completedReports }}</p>
                         </div>
-                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-[#91A68A] to-[#7A8F70] rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <div class="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-[#91A68A] to-[#7A8F70] rounded-lg sm:rounded-xl flex items-center justify-center">
                             <svg class="w-5 h-5 sm:w-7 sm:h-7 text-[#FAFAFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -289,28 +289,28 @@
             @if($reports->count() > 0)
             <div class="mb-6">
                 <div class="flex items-center gap-2 flex-wrap">
-                    <button onclick="filterReports('all')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium" data-filter="all" data-ar="الكل" data-en="All">
+                    <button onclick="filterReports('all')" class="filter-btn active px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="all" data-ar="الكل" data-en="All">
                         الكل
                     </button>
-                    <button onclick="filterReports('pending')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="pending" data-ar="قيد الانتظار" data-en="Pending">
+                    <button onclick="filterReports('pending')" class="filter-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="pending" data-ar="قيد الانتظار" data-en="Pending">
                         قيد الانتظار
                     </button>
-                    <button onclick="filterReports('pending_approval')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="pending_approval" data-ar="بانتظار الموافقة" data-en="Pending Approval">
+                    <button onclick="filterReports('pending_approval')" class="filter-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="pending_approval" data-ar="بانتظار الموافقة" data-en="Pending Approval">
                         بانتظار الموافقة
                     </button>
-                    <button onclick="filterReports('processing')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="processing" data-ar="قيد المعالجة" data-en="Processing">
+                    <button onclick="filterReports('processing')" class="filter-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="processing" data-ar="قيد المعالجة" data-en="Processing">
                         قيد المعالجة
                     </button>
-                    <button onclick="filterReports('approved')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="approved" data-ar="تمت الموافقة" data-en="Approved">
+                    <button onclick="filterReports('approved')" class="filter-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="approved" data-ar="تمت الموافقة" data-en="Approved">
                         تمت الموافقة
                     </button>
-                    <button onclick="filterReports('completed')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="completed" data-ar="مكتمل" data-en="Completed">
+                    <button onclick="filterReports('completed')" class="filter-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium" data-filter="completed" data-ar="مكتمل" data-en="Completed">
                         مكتمل
                     </button>
                 </div>
             </div>
 
-            <div id="reports-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="reports-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 @foreach($reports as $report)
                 @php
                 $statusBadgeColors = [
@@ -377,7 +377,7 @@
                 @endphp
                 <div class="report-card rounded-2xl overflow-hidden animate-in" data-status="{{ $report->status }}" data-stagger="{{ $loop->index }}">
                     @if($hasImages)
-                    <div class="relative h-44 overflow-hidden">
+                    <div class="relative h-36 sm:h-44 overflow-hidden">
                         <img src="{{ asset('storage/' . $report->images[0]) }}" alt="صورة البلاغ" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#0B0B45]/70 to-transparent"></div>
                         <div class="absolute top-3 right-3">
@@ -392,7 +392,7 @@
                         </div>
                     </div>
                     @elseif($hasImage)
-                    <div class="relative h-44 overflow-hidden">
+                    <div class="relative h-36 sm:h-44 overflow-hidden">
                         <img src="{{ asset('storage/' . $report->image_path) }}" alt="صورة البلاغ" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#0B0B45]/70 to-transparent"></div>
                         <div class="absolute top-3 right-3">
@@ -407,7 +407,7 @@
                         </div>
                     </div>
                     @else
-                    <div class="relative h-44 bg-[#E8E6E1]/80 flex items-center justify-center">
+                    <div class="relative h-36 sm:h-44 bg-[#E8E6E1]/80 flex items-center justify-center">
                         <div class="text-center">
                             <div class="w-14 h-14 bg-[#0B0B45]/10 rounded-xl flex items-center justify-center mx-auto mb-2">
                                 <svg class="w-7 h-7 text-[#0B0B45]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,7 +429,7 @@
                     </div>
                     @endif
 
-                    <div class="p-5">
+                    <div class="p-4 sm:p-5">
                         <div class="flex items-start justify-between mb-3">
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-[#0B0B45] font-semibold text-sm leading-relaxed truncate">{{ Str::limit($report->raw_location, 35) }}</h3>
@@ -496,7 +496,7 @@
 
             @if($reports->lastPage() > 1)
             <div class="mt-8 flex justify-center">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap justify-center">
                     @if($reports->onFirstPage())
                     <span class="page-btn px-3 py-2 rounded-lg text-sm text-[#0B0B45]/30 border border-[#0B0B45]/10 cursor-not-allowed">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
@@ -540,7 +540,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-[#0B0B45] text-xl font-bold mb-2" data-ar="لا توجد بلاغات بعد" data-en="No Reports Yet">لا توجد بلاغات بعد</h3>
+                    <h3 class="text-[#0B0B45] text-lg sm:text-xl font-bold mb-2" data-ar="لا توجد بلاغات بعد" data-en="No Reports Yet">لا توجد بلاغات بعد</h3>
                     <p class="text-[#0B0B45]/60 text-sm mb-6" data-ar="ابدأ بإضافة بلاغ جديد وسيتم تحليله بالذكاء الاصطناعي" data-en="Start by adding a new report and it will be analyzed by AI">ابدأ بإضافة بلاغ جديد وسيتم تحليله بالذكاء الاصطناعي</p>
                     <a href="{{ route('user.reports.create') }}" class="btn-add-report inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

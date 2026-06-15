@@ -102,7 +102,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
-                        <h1 class="text-xl font-bold text-[#FAFAFA]" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
+                        <h1 class="text-base sm:text-xl font-bold text-[#FAFAFA]" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
                     </a>
                 </div>
 
@@ -192,8 +192,8 @@
         </div>
     </div>
 
-    <div class="pt-24 pb-12 px-4 min-h-screen">
-        <div class="max-w-4xl mx-auto">
+    <div class="pt-24 pb-12 px-4 sm:px-6 min-h-screen">
+        <div class="max-w-2xl mx-auto">
             <div class="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl">
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-gradient-to-br from-[#C9A97C] to-[#B08D5F] rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -201,8 +201,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                     </div>
-                    <h2 class="text-2xl font-bold text-[#0B0B45]" data-ar="إضافة بلاغ جديد" data-en="New Report">إضافة بلاغ جديد</h2>
-                    <p class="text-[#0B0B45]/60 mt-2" data-ar="أدخل تفاصيل البلاغ - سيتم تحليل الصور وتحديد مستوى الضرر تلقائياً بالذكاء الاصطناعي" data-en="Enter report details - images will be analyzed and damage level determined automatically with AI">أدخل تفاصيل البلاغ - سيتم تحليل الصور وتحديد مستوى الضرر تلقائياً بالذكاء الاصطناعي</p>
+                    <h2 class="text-xl sm:text-2xl font-bold text-[#0B0B45]" data-ar="إضافة بلاغ جديد" data-en="New Report">إضافة بلاغ جديد</h2>
+                    <p class="text-[#0B0B45]/60 mt-2 text-sm" data-ar="أدخل تفاصيل البلاغ - سيتم تحليل الصور وتحديد مستوى الضرر تلقائياً بالذكاء الاصطناعي" data-en="Enter report details - images will be analyzed and damage level determined automatically with AI">أدخل تفاصيل البلاغ - سيتم تحليل الصور وتحديد مستوى الضرر تلقائياً بالذكاء الاصطناعي</p>
                 </div>
 
                 @if($errors->any())

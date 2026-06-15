@@ -82,7 +82,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold text-[#FAFAFA] hidden sm:block" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
+                    <h1 class="text-base sm:text-xl font-bold text-[#FAFAFA] hidden sm:block" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
                 </div>
                 <div class="hidden md:flex items-center gap-3">
                     <a href="{{ route('user.profile') }}" class="text-[#FAFAFA]/70 text-sm whitespace-nowrap hover:text-[#C9A97C] transition-all"><span data-ar="مرحباً،" data-en="Hello,">مرحباً،</span> <strong class="text-[#FAFAFA]">{{ auth()->user()->name }}</strong></a>
@@ -228,7 +228,7 @@
                         <div>
                             <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="الاسم" data-en="Name">الاسم</label>
                             <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" required
-                                class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
+                                class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
                                 data-ar-placeholder="أدخل اسمك" data-en-placeholder="Enter your name"
                                 placeholder="أدخل اسمك">
                         </div>
@@ -236,7 +236,7 @@
                         <div>
                             <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</label>
                             <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" required
-                                class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
+                                class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
                                 data-ar-placeholder="أدخل بريدك الإلكتروني" data-en-placeholder="Enter your email"
                                 placeholder="أدخل بريدك الإلكتروني">
                         </div>
@@ -247,7 +247,7 @@
                                 <div>
                                     <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="كلمة المرور الحالية" data-en="Current Password">كلمة المرور الحالية</label>
                                     <input type="password" name="current_password"
-                                        class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
+                                        class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
                                         data-ar-placeholder="أدخل كلمة المرور الحالية" data-en-placeholder="Enter current password"
                                         placeholder="أدخل كلمة المرور الحالية">
                                 </div>
@@ -255,7 +255,7 @@
                                 <div>
                                     <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="كلمة المرور الجديدة" data-en="New Password">كلمة المرور الجديدة</label>
                                     <input type="password" name="password"
-                                        class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
+                                        class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
                                         data-ar-placeholder="أدخل كلمة المرور الجديدة" data-en-placeholder="Enter new password"
                                         placeholder="أدخل كلمة المرور الجديدة">
                                 </div>
@@ -263,15 +263,15 @@
                                 <div>
                                     <label class="block text-sm font-medium text-[#0B0B45]/80 mb-2" data-ar="تأكيد كلمة المرور" data-en="Confirm Password">تأكيد كلمة المرور الجديدة</label>
                                     <input type="password" name="password_confirmation"
-                                        class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
+                                        class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 transition-all"
                                         data-ar-placeholder="أعد إدخال كلمة المرور الجديدة" data-en-placeholder="Re-enter new password"
                                         placeholder="أعد إدخال كلمة المرور الجديدة">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-4 pt-4">
-                            <button type="submit" class="px-8 py-3 bg-gradient-to-r from-[#C9A97C] to-[#B08D5F] text-[#FAFAFA] font-semibold rounded-xl hover:from-[#D6B570] hover:to-[#C9A97C] transition-all shadow-lg shadow-[#C9A97C]/25" data-ar="حفظ التغييرات" data-en="Save Changes">
+                        <div class="flex items-center gap-3 sm:gap-4 pt-4 flex-wrap">
+                            <button type="submit" class="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-[#C9A97C] to-[#B08D5F] text-[#FAFAFA] font-semibold rounded-xl hover:from-[#D6B570] hover:to-[#C9A97C] transition-all shadow-lg shadow-[#C9A97C]/25 text-sm sm:text-base" data-ar="حفظ التغييرات" data-en="Save Changes">
                                 حفظ التغييرات
                             </button>
                             <a href="{{ route('user.dashboard') }}" class="px-6 py-3 text-[#0B0B45]/60 hover:text-[#0B0B45] rounded-xl border border-[#0B0B45]/15 hover:border-[#C9A97C] transition-all text-sm" data-ar="إلغاء" data-en="Cancel">
@@ -309,7 +309,7 @@
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 sm:gap-4">
                         <div class="flex-1">
                             <input type="password" name="password" required
-                                class="w-full px-4 py-3 input-style rounded-xl placeholder-[#0B0B45]/40 focus:outline-none focus:ring-2 focus:ring-[#9C5D4D]/30 transition-all"
+                                class="w-full px-4 py-2.5 sm:py-3 input-style rounded-xl placeholder-[#0B0B45]/40 focus:outline-none focus:ring-2 focus:ring-[#9C5D4D]/30 transition-all"
                                 data-ar-placeholder="أدخل كلمة المرور للتأكيد" data-en-placeholder="Enter password to confirm"
                                 placeholder="أدخل كلمة المرور للتأكيد">
                         </div>

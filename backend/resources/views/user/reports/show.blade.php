@@ -57,8 +57,13 @@
         }
         .image-card img {
             width: 100%;
-            height: 180px;
+            height: 120px;
             object-fit: cover;
+        }
+        @media (min-width: 640px) {
+            .image-card img {
+                height: 180px;
+            }
         }
         #map {
             height: 300px;
@@ -134,7 +139,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
-                        <h1 class="text-xl font-bold text-[#FAFAFA]" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
+                        <h1 class="text-base sm:text-xl font-bold text-[#FAFAFA]" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment System">نظام تقييم الأضرار</h1>
                     </a>
                 </div>
                 <div class="hidden md:flex items-center gap-3">
@@ -218,7 +223,7 @@
         </div>
     </nav>
 
-    <div class="pt-24 pb-12 px-4 min-h-screen">
+    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 min-h-screen">
         <div class="max-w-4xl mx-auto">
             @if(session('success'))
             <div class="mb-6 p-4 bg-[#91A68A]/20 border border-[#91A68A]/30 rounded-xl text-[#0B0B45]">
@@ -287,7 +292,7 @@
                 <div class="mb-6 relative">
                     <div id="imgCarousel" style="position:relative;overflow:hidden;border-radius:16px;">
                         @foreach($allImages as $i => $image)
-                        <img src="{{ asset('storage/' . $image) }}" alt="Report Image" style="height:400px;width:100%;object-fit:cover;display:none;cursor:pointer;" onclick="openLightbox(this.src)" class="carousel-slide" data-index="{{ $i }}">
+                        <img src="{{ asset('storage/' . $image) }}" alt="Report Image" style="width:100%;object-fit:cover;display:none;cursor:pointer;" onclick="openLightbox(this.src)" class="carousel-slide h-48 sm:h-64 lg:h-80 max-w-full" data-index="{{ $i }}">
                         @endforeach
                     </div>
                     @if(count($allImages) > 1)

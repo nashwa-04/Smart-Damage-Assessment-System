@@ -36,7 +36,7 @@
     </div>
     @endif
 
-    <div class="bg-white rounded-2xl p-8 mb-6 card-shadow fade-in">
+    <div class="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 mb-6 card-shadow fade-in">
         <div class="flex flex-col items-center mb-8 pb-6 border-b" style="border-color: rgba(11, 11, 69, 0.1);">
             <div class="relative group">
                 <div class="w-28 h-28 rounded-full flex items-center justify-center border-4 profile-image-preview bg-white overflow-hidden" style="border-color: rgba(201, 169, 124, 0.5);">

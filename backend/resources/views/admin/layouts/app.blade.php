@@ -84,27 +84,29 @@
 
 @include('admin.partials.sidebar')
 
-<div class="lg:mr-72 min-h-screen transition-all duration-300">
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-30 lg:hidden" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+
+        <div class="lg:mr-72 min-h-screen transition-all duration-300">
             <header class="sticky top-0 z-20 lg:hidden" style="background: #0B0B45; color: #FAFAFA;">
-                <div class="flex items-center justify-between px-4 py-3">
-                    <div class="flex items-center gap-3">
+                <div class="flex items-center justify-between px-3 sm:px-4 py-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg transition-colors" style="color: rgba(250,250,250,0.7);" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                             </svg>
                         </button>
-                        <h1 class="text-sm font-bold" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment">نظام تقييم الأضرار</h1>
+                        <h1 class="text-sm sm:text-base font-bold" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment">نظام تقييم الأضرار</h1>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs" style="color: rgba(250,250,250,0.5);">{{ auth()->user()->name }}</span>
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-sand to-sage flex items-center justify-center text-white font-bold text-sm">
+                        <span class="text-xs hidden sm:inline" style="color: rgba(250,250,250,0.5);">{{ auth()->user()->name }}</span>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-sand to-sage flex items-center justify-center text-white font-bold text-xs sm:text-sm">
                             {{ auth()->user()->name[0] ?? 'م' }}
                         </div>
                     </div>
                 </div>
             </header>
 
-            <main class="p-3 lg:p-4">
+            <main class="p-3 sm:p-4 lg:p-6">
                 @yield('content')
             </main>
         </div>

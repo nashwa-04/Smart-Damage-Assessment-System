@@ -94,7 +94,8 @@
 background: linear-gradient(135deg, #C9A97C, #78A9C1);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-background-clip: text;
+    background-clip: text;
+    padding-bottom: 0.45em;
 }
 
 .glass {
@@ -374,7 +375,7 @@ border-radius: 4px;
 <span class="text-sage text-xs sm:text-sm font-medium" data-ar="النظام متاح الآن • معالجة فورية بالذكاء الاصطناعي" data-en="System Online • Instant AI Processing">النظام متاح الآن • معالجة فورية بالذكاء الاصطناعي</span>
 </div>
 
-<h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-normal">
+<h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-normal -mt-3">
                         <span class="block text-charcoal" data-ar="نظام تقييم" data-en="Smart Damage">نظام تقييم</span>
                         <span class="block gradient-text mt-1" data-ar="الأضرار الذكي" data-en="Assessment System">الأضرار الذكي</span>
                     </h1>

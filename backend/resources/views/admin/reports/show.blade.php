@@ -121,7 +121,7 @@
         <div class="space-y-4">
             <!-- Approval Actions - Always Visible -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #C9A97C;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -129,7 +129,7 @@
                         <span data-ar="إجراءات الموافقة" data-en="Approval Actions">إجراءات الموافقة</span>
                     </h2>
                 </div>
-                <div class="p-5">
+                <div class="p-4 sm:p-5">
                     @if($report->admin_approval_status === 'approved')
                         <div class="flex items-center gap-4 mb-4">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(145, 166, 138, 0.2);">
@@ -207,7 +207,7 @@
 
             <!-- Report Info -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #C9A97C;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -215,7 +215,7 @@
                         <span data-ar="معلومات التقرير" data-en="Report Information">معلومات التقرير</span>
                     </h2>
                 </div>
-                <div class="p-5">
+                <div class="p-4 sm:p-5">
                     <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="flex justify-between items-center py-3 border-b" style="border-color: rgba(11, 11, 69, 0.05);">
                             <dt class="text-sm" style="color: rgba(11, 11, 69, 0.6);" data-ar="المستخدم" data-en="User">المستخدم</dt>
@@ -284,7 +284,7 @@
             @endphp
             @if($hasImages || $hasOldImage)
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(120, 169, 193, 0.05);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(120, 169, 193, 0.05);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #78A9C1;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -292,7 +292,7 @@
                         <span data-ar="صور التقرير ({{ $hasImages ? count($images) : 0 }}{{ $hasOldImage ? '+1' : '' }})" data-en="Report Images ({{ $hasImages ? count($images) : 0 }}{{ $hasOldImage ? '+1' : '' }})">صور التقرير ({{ $hasImages ? count($images) : 0 }}{{ $hasOldImage ? '+1' : '' }})</span>
                     </h2>
                 </div>
-                <div class="p-5">
+                <div class="p-4 sm:p-5">
                     <div class="image-grid">
                         @if($hasImages)
                             @foreach($images as $image)
@@ -313,7 +313,7 @@
 
             <!-- Map -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(120, 169, 193, 0.05);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(120, 169, 193, 0.05);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #78A9C1;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -322,7 +322,7 @@
                         <span data-ar="الموقع على الخريطة" data-en="Location on Map">الموقع على الخريطة</span>
                     </h2>
                 </div>
-                <div class="p-5">
+                <div class="p-4 sm:p-5">
                     <div id="mini-map" style="height: 350px; border-radius: 12px;"></div>
                 </div>
             </div>
@@ -332,7 +332,7 @@
         <div class="space-y-4">
             <!-- AI Damage Level -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(11, 11, 69, 0.03);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(11, 11, 69, 0.03);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #0B0B45;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
@@ -392,7 +392,7 @@
 
             <!-- Admin Assessment -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08); background: rgba(201, 169, 124, 0.05);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #C9A97C;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -400,7 +400,7 @@
                         <span data-ar="تقييم الأدمن" data-en="Admin Assessment">تقييم الأدمن</span>
                     </h2>
                 </div>
-                <div class="p-6">
+                <div class="p-4 sm:p-6">
                     @if($report->admin_damage_score)
                         <div class="text-center mb-4">
                             <div class="text-4xl font-bold mb-2" style="color: #C9A97C;">{{ $report->admin_damage_score }}/10</div>
@@ -444,7 +444,7 @@
 
             <!-- Description & Analysis -->
             <div class="section-card rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08);">
+                <div class="px-4 sm:px-6 py-3 sm:py-4 border-b" style="border-color: rgba(11, 11, 69, 0.08);">
                     <h2 class="text-base font-bold flex items-center gap-2" style="color: #0B0B45;">
                         <svg class="w-5 h-5" style="color: #0B0B45;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>

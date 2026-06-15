@@ -285,7 +285,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-[#0B0B45]">لوحة التحكم</h2>
+                                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0B0B45]">لوحة التحكم</h2>
                                 <p class="text-xs text-[#0B0B45]/50">نظرة عامة على بلاغاتك</p>
                             </div>
                         </div>
@@ -342,26 +342,26 @@
             </div>
 
             <div class="glass-card rounded-2xl shadow-xl overflow-hidden fade-in">
-                <div class="section-header px-6 py-4 flex items-center justify-between">
+                <div class="section-header px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
                     <h3 class="text-lg font-bold flex items-center gap-2 text-[#FAFAFA]">
                         <svg class="w-5 h-5 text-[#C9A97C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         آخر البلاغات
                     </h3>
-                    <a href="{{ route('user.reports') }}" class="text-sm transition-colors text-[#C9A97C] hover:text-[#FAFAFA]">عرض الكل</a>
+                    <a href="{{ route('user.reports') }}" class="text-xs sm:text-sm transition-colors text-[#C9A97C] hover:text-[#FAFAFA]">عرض الكل</a>
                 </div>
 
                 @if($recentReports->count() > 0)
                 <div class="overflow-x-auto">
-                    <table class="w-full">
+                    <table class="w-full min-w-[640px]">
                         <thead class="bg-[#0B0B45]/5">
                             <tr>
-                                <th class="px-6 py-4 text-right text-sm font-bold text-[#0B0B45]/70">الموقع</th>
-                                <th class="px-6 py-4 text-right text-sm font-bold text-[#0B0B45]/70">الحالة</th>
-                                <th class="px-6 py-4 text-right text-sm font-bold text-[#0B0B45]/70">مستوى الضرر</th>
-                                <th class="px-6 py-4 text-right text-sm font-bold text-[#0B0B45]/70">التاريخ</th>
-                                <th class="px-6 py-4 text-right text-sm font-bold text-[#0B0B45]/70">إجراءات</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs sm:text-sm font-bold text-[#0B0B45]/70">الموقع</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs sm:text-sm font-bold text-[#0B0B45]/70">الحالة</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs sm:text-sm font-bold text-[#0B0B45]/70">مستوى الضرر</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs sm:text-sm font-bold text-[#0B0B45]/70">التاريخ</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs sm:text-sm font-bold text-[#0B0B45]/70">إجراءات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -403,20 +403,20 @@
                             ];
                             @endphp
                             <tr class="transition-colors border-b border-[#0B0B45]/5 hover:bg-[#0B0B45]/5">
-                                <td class="px-6 py-4 font-medium text-[#0B0B45]/80">{{ Str::limit($report->raw_location, 30) }}</td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-[#0B0B45]/80">{{ Str::limit($report->raw_location, 30) }}</td>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4">
                                     <span class="px-3 py-1 rounded-full text-xs font-bold {{ $statusBadge[$report->status] ?? 'badge-unknown' }}">
                                         {{ $statusLabels[$report->status] ?? $report->status }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4">
                                     <span class="px-3 py-1 rounded-full text-xs font-bold {{ $damageBadge[$report->ai_damage_level] ?? 'badge-unknown' }}">
                                         {{ $damageLabels[$report->ai_damage_level] ?? 'غير محدد' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-[#0B0B45]/50">{{ $report->created_at->format('Y-m-d H:i') }}</td>
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('user.reports.show', $report) }}" class="inline-flex items-center gap-1 text-sm font-medium transition-colors text-[#C9A97C] hover:text-[#B08D5F]">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-[#0B0B45]/50">{{ $report->created_at->format('Y-m-d H:i') }}</td>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4">
+                                    <a href="{{ route('user.reports.show', $report) }}" class="inline-flex items-center gap-1 text-xs sm:text-sm font-medium transition-colors text-[#C9A97C] hover:text-[#B08D5F]">
                                         عرض
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -435,9 +435,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold mb-2 text-[#0B0B45]/60">لا توجد بلاغات بعد</h3>
-                    <p class="text-sm mb-6 text-[#0B0B45]/40">ابدأ بإضافة بلاغ جديد وسيتم تحليله بالذكاء الاصطناعي</p>
-                    <a href="{{ route('user.reports.create') }}" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium">
+                    <h3 class="text-base sm:text-lg font-bold mb-2 text-[#0B0B45]/60">لا توجد بلاغات بعد</h3>
+                    <p class="text-xs sm:text-sm mb-6 text-[#0B0B45]/40">ابدأ بإضافة بلاغ جديد وسيتم تحليله بالذكاء الاصطناعي</p>
+                    <a href="{{ route('user.reports.create') }}" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-medium">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>

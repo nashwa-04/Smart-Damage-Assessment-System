@@ -132,16 +132,16 @@
         </div>
     </div>
 
-    <div class="glass-card rounded-2xl shadow-xl overflow-hidden flex flex-col h-full">
-        <div class="chart-header px-6 py-4">
-            <h3 class="text-lg font-bold text-light flex items-center gap-2">
+    <div class="glass-card rounded-xl sm:rounded-2xl shadow-xl overflow-hidden flex flex-col h-full">
+        <div class="chart-header px-4 sm:px-6 py-3 sm:py-4">
+            <h3 class="text-sm sm:text-lg font-bold text-light flex items-center gap-2">
                 <svg class="w-5 h-5 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
                 </svg>
                 <span data-ar="التقارير خلال آخر 7 أيام" data-en="Reports Last 7 Days">التقارير خلال آخر 7 أيام</span>
             </h3>
         </div>
-        <div class="p-6 flex-1 flex items-center justify-center">
+        <div class="p-4 sm:p-6 flex-1 flex items-center justify-center">
             <div class="w-full h-48 relative flex justify-center">
                 <canvas id="timeChart"></canvas>
             </div>

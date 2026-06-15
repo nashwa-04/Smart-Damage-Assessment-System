@@ -41,7 +41,7 @@
             <div class="space-y-4">
                 <!-- Basic Information Section -->
                 <div class="bg-white rounded-2xl shadow-sm border border-charcoal/10 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-charcoal/10 bg-sand/5">
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-charcoal/10 bg-sand/5">
                         <h2 class="text-lg font-bold text-charcoal flex items-center gap-2">
                             <span class="w-8 h-8 rounded-lg bg-sand/10 flex items-center justify-center">
                                 <svg class="w-4 h-4 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@
                             <span data-ar="معلومات التقرير" data-en="Report Information">معلومات التقرير</span>
                         </h2>
                     </div>
-                    <div class="p-6">
+                    <div class="p-4 sm:p-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <!-- User -->
                             <div>
@@ -91,7 +91,7 @@
 
                 <!-- Media Section -->
                 <div class="bg-white rounded-2xl shadow-sm border border-charcoal/10 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-charcoal/10 bg-sage/5">
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-charcoal/10 bg-sage/5">
                         <h2 class="text-lg font-bold text-charcoal flex items-center gap-2">
                             <span class="w-8 h-8 rounded-lg bg-sage/10 flex items-center justify-center">
                                 <svg class="w-4 h-4 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@
                             <span data-ar="الصور والوسائط" data-en="Images & Media">الصور والوسائط</span>
                         </h2>
                     </div>
-                    <div class="p-6 space-y-6">
+                    <div class="p-4 sm:p-6 space-y-6">
                         <!-- Existing Images -->
                         @php
                             $existingImages = $report->images ?? [];
@@ -231,7 +231,7 @@
             <div class="space-y-4">
                 <!-- AI Assessment -->
                 <div class="bg-white rounded-2xl shadow-sm border border-charcoal/10 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-charcoal/10 bg-gradient-to-r from-indigo-500/5 to-purple-500/5">
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-charcoal/10 bg-gradient-to-r from-indigo-500/5 to-purple-500/5">
                         <h2 class="text-lg font-bold text-charcoal flex items-center gap-2">
                             <span class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
                                 <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,7 +241,7 @@
                             <span data-ar="تقييم AI" data-en="AI Assessment">تقييم AI</span>
                         </h2>
                     </div>
-                    <div class="p-6 space-y-5">
+                    <div class="p-4 sm:p-6 space-y-5">
                         <!-- Current Assessment -->
                         <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
                             <p class="text-xs font-bold text-indigo-600 mb-2" data-ar="التقييم الحالي" data-en="Current Assessment">التقييم الحالي</p>
@@ -277,7 +277,7 @@
 
                 <!-- Admin Decision -->
                 <div class="bg-white rounded-2xl shadow-sm border border-charcoal/10 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-charcoal/10 bg-gradient-to-r from-sand/10 to-sage/10">
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-charcoal/10 bg-gradient-to-r from-sand/10 to-sage/10">
                         <h2 class="text-lg font-bold text-charcoal flex items-center gap-2">
                             <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-sand/20 to-sage/20 flex items-center justify-center">
                                 <svg class="w-4 h-4 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,7 +287,7 @@
                             <span data-ar="قرار الأدمن" data-en="Admin Decision">قرار الأدمن</span>
                         </h2>
                     </div>
-                    <div class="p-6 space-y-5">
+                    <div class="p-4 sm:p-6 space-y-5">
                         <div>
                             <label class="block text-sm font-bold text-charcoal mb-2" data-ar="حالة الموافقة" data-en="Approval Status">حالة الموافقة</label>
                             <select name="edit_admin_approval_status" class="w-full px-4 py-3 border-2 border-charcoal/10 rounded-xl focus:outline-none focus:border-sand/50 focus:ring-2 focus:ring-sand/20 transition-all text-sm">
@@ -310,7 +310,7 @@
 
                 <!-- Reprocess with AI -->
                 <div class="bg-white rounded-2xl shadow-sm border border-charcoal/10 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-charcoal/10 bg-gradient-to-r from-emerald-500/5 to-teal-500/5">
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-charcoal/10 bg-gradient-to-r from-emerald-500/5 to-teal-500/5">
                         <h2 class="text-lg font-bold text-charcoal flex items-center gap-2">
                             <span class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
                                 <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -320,7 +320,7 @@
                             <span data-ar="إعادة المعالجة" data-en="Reprocess">إعادة المعالجة</span>
                         </h2>
                     </div>
-                    <div class="p-6">
+                    <div class="p-4 sm:p-6">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-bold text-charcoal" data-ar="إعادة التحليل بالـ AI" data-en="Re-analyze with AI">إعادة التحليل بالـ AI</p>

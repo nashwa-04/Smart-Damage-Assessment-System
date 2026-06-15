@@ -46,7 +46,7 @@
 
 <!-- Map Container -->
 <div class="glass-card rounded-2xl shadow-xl overflow-hidden fade-in">
-    <div id="map" style="height: 400px; width: 100%;"></div>
+    <div id="map" class="w-full h-[400px] min-h-[300px] sm:h-[500px] lg:h-[600px]"></div>
 </div>
 @endsection
 

@@ -1,4 +1,5 @@
-<aside x-show="sidebarOpen" class="admin-sidebar w-72 shadow-2xl fixed top-0 right-0 h-full overflow-y-auto z-40 flex flex-col" style="background: #0B0B45;">
+<div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-30 lg:hidden"></div>
+<aside x-show="sidebarOpen" class="admin-sidebar w-64 sm:w-72 shadow-2xl fixed top-0 right-0 h-full overflow-y-auto z-40 flex flex-col" style="background: #0B0B45;">
     <div class="p-6" style="border-bottom: 1px solid rgba(201, 169, 124, 0.15);">
         <div class="flex items-center gap-3">
             <a href="{{ route('home') }}" class="flex items-center gap-3" @click="sidebarOpen = false">
@@ -8,7 +9,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold leading-tight" style="color: #FAFAFA;" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment">نظام تقييم الأضرار</h1>
+                    <h1 class="text-sm sm:text-base font-bold leading-tight" style="color: #FAFAFA;" data-ar="نظام تقييم الأضرار" data-en="Damage Assessment">نظام تقييم الأضرار</h1>
                     <span class="text-[10px] font-medium tracking-wider" style="color: #78A9C1;">SMART DAMAGE ASSESSMENT</span>
                 </div>
             </a>
